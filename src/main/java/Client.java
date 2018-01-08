@@ -11,6 +11,11 @@ public class Client
         new LoginScreenFrame(this);
     }
 
+    void setMenuWindow()
+    {
+        new MenuWindowFrame(this);
+    }
+
 
     public static void main(String[] args) throws Exception
     {

@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -7,9 +6,12 @@ public class LoginScreenFrame extends NewWindowFrame {
 
     private Client client;
     private JButton exitButton;
+    private JButton connectButton;
     private JLabel titleLabel;
     private JLabel passLabel;
     private JLabel userLabel;
+    private JTextField passwordText = new JTextField("",30);
+    private JTextField userText = new JTextField("",30);
 
     LoginScreenFrame(Client client)
     {
@@ -47,11 +49,22 @@ public class LoginScreenFrame extends NewWindowFrame {
         userLabel.setBounds(300,300,200,50);
         passLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         userLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        
+
+        userText.setBounds(510,310,200,30);
+        passwordText.setBounds(510,370,200,30);
+
+        connectButton = new JButton("CONNECT");
+        connectButton.addActionListener(this);
+        connectButton.setBounds(730,310,130,90);
+
         add(exitButton);
         add(titleLabel);
         add(passLabel);
         add(userLabel);
+        add(passwordText);
+        add(userText);
+        add(connectButton);
+
     }
 
     @Override
@@ -67,6 +80,12 @@ public class LoginScreenFrame extends NewWindowFrame {
         if(source==exitButton)
         {
             System.exit(0);
+        }
+        else if (source==connectButton);
+        {
+            client.setMenuWindow();
+            dispose();
+            //TODO: if login successful then show message, dispose, show MenuWindow (via Client Class)
         }
 
     }
