@@ -1,7 +1,7 @@
 public class Client
 {
 
-    Client()
+    Client() throws Exception
     {
         setLoginWindow();
     }
@@ -15,5 +15,6 @@ public class Client
     public static void main(String[] args) throws Exception
     {
        Client client = new Client();
+
     }
 }
