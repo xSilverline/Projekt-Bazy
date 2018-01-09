@@ -51,7 +51,7 @@ public class Client
     {
         new AdminWindowFrame(this);
     }
-    
+
 
     public static void main(String[] args) throws Exception
     {
