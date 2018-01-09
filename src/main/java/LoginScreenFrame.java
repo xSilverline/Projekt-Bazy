@@ -1,5 +1,5 @@
 import javax.swing.*;
-import java.awt.*;
+
 import java.awt.event.ActionEvent;
 
 public class LoginScreenFrame extends NewWindowFrame {
@@ -16,20 +16,13 @@ public class LoginScreenFrame extends NewWindowFrame {
     LoginScreenFrame(Client client)
     {
         this.client = client;
+        buildFrame();
         makeGui();
     }
 
     @Override
     void makeGui()
     {
-        setSize(1366,768);
-        setUndecorated(true);
-        setResizable(false);
-        setLayout(null);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        setLocation(dim.width/2-getSize().width/2, dim.height/2-getSize().height/2);
-        getContentPane().setBackground(new Color(74, 73, 75));
-        setVisible(true);
 
         exitButton = new JButton("Exit");
         exitButton.setBounds(1200,700,150,50);
