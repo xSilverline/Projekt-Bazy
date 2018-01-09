@@ -11,7 +11,7 @@ public class Server {
     DBConnector dbConnector;
 
     public Server(){
-        this.dbConnector = new DBConnector("jdbc:mysql//localhost:3306/Projekt-Bazy");
+        this.dbConnector = new DBConnector("jdbc:mysql//localhost:3306/projekt-bazy");
     }
 
     /**
@@ -22,15 +22,18 @@ public class Server {
      * @return returns 1 if logged in successfully, 0 if invalid username/password.
      */
     public int login(String login, String password){
-        if(dbConnector.checkIfUserExists(login, password)){
+        //If user exists...
+        if(dbConnector.checkIfUserExists(login, password) == 1){
             dbConnector.login(login, password);
+            //At this point we are connected to database
             return 1;
         }
         else return 0;
     }
 
     public int register(String login, String password){
-        if(!dbConnector.checkIfUserExists(login, password)){
+        //If user doesn't exist...
+        if(dbConnector.checkIfUserExists(login, password) == 0){
             dbConnector.addUser(login, password);
             return 1;
         }
