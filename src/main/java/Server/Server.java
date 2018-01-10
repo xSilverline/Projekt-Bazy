@@ -19,26 +19,60 @@ public class Server {
      * login and password to communicate with the database.
      * @param login
      * @param password
-     * @return returns 1 if logged in successfully, 0 if invalid username/password.
+     * @return returns 1 if logged in successfully, 0 if account doesnt exists, -1 if exception has occurred,
+     * -2 invalid input
      */
     public int login(String login, String password){
+        if(!dbConnector.checkValidLogin(login, password)){
+            System.out.println("Server.login: Invalid input.");
+            return -2;
+        }
+        int exists = dbConnector.checkIfUserExists(login, password);
         //If user exists...
-        if(dbConnector.checkIfUserExists(login, password) == 1){
+        if(exists == 1){
             dbConnector.login(login, password);
+            System.out.println("Server.login: Logged in.");
             //At this point we are connected to database
             return 1;
         }
-        else return 0;
-    }
-
-    public int register(String login, String password){
-        //If user doesn't exist...
-        if(dbConnector.checkIfUserExists(login, password) == 0){
-            dbConnector.addUser(login, password);
-            return 1;
+        else if(exists == 0){
+            System.out.println("Server.login: User doesn't exist.");
+            return 0;
         }
-        return 0;
+        System.out.println("Server.login: Exception has occurred.");
+        return -1;
     }
 
-
+    /**
+     *
+     * @param login
+     * @param password
+     * @return 1 if user has been successfully created, 0 if already exists, -1 if something's gone wrong(exception),
+     * -2 if invalid input
+     */
+    public int register(String imie, String nazwisko, String stanowisko, String pensja, String login, String password){
+        if(!dbConnector.checkValidLogin(login, password)){
+            System.out.println("Server.register: Invalid input.");
+            return -2;
+        }
+        int exists = dbConnector.checkIfUserExists(login, password);
+        //If user doesn't exist...
+        if(exists == 0){
+            int add = dbConnector.addUser(imie, nazwisko, stanowisko, pensja, login, password);
+            if(add == 1){
+                System.out.println("Server.register: User created.");
+                return 1;
+            }
+            else if (add == 0){
+                System.out.println("Server.register: Couldn't create user.");
+                return -1;
+            }
+        }
+        else if(exists == 1){
+            System.out.println("Server.register: User already exists.");
+            return 0;
+        }
+        System.out.println("Server.register: Exception has occurred.");
+        return -1;
+    }
 }

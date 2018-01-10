@@ -14,11 +14,13 @@ public class DBConnectorTest {
 
     }
 
-    /*@Test
+    @Test
     public void clientShouldConnectToDB(){
-        server.dbConnector.login("dbmeta", "doktorsyga");
+        server.register("Jan", "Kowalski", "Pracownik", "2000", "jankowalski97", "grazyna");
+        server.login("jankowalski97", "grazyna");
 
-    }*/
+
+    }
 
 
 }
