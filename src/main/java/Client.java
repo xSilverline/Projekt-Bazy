@@ -17,6 +17,11 @@ public class Client
         new LoginScreenFrame(this);
     }
 
+    void setAddStorageDialog()
+    {
+        new AddStorageDialog(this);
+    }
+
     void setMenuWindow()
     {
         new MenuWindowFrame(this,0);

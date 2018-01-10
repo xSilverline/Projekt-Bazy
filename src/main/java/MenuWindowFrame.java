@@ -24,8 +24,8 @@ public class MenuWindowFrame extends NewWindowFrame
     @Override
     void makeGui()
     {
-        exitButton = new JButton("Exit");
-        exitButton.setBounds(1200,700,150,50);
+        exitButton = new MenuButton("Exit");
+        exitButton.setBounds(1066,594,300,140);
         exitButton.addActionListener(this);
 
         storageButton = new MenuButton("STORAGE");
@@ -42,7 +42,7 @@ public class MenuWindowFrame extends NewWindowFrame
         neededButton.setBounds(0,454,300,140);
         orderedButton.setBounds(0,594,300,140);
         infoButton.setBounds(1250,34,100,30);
-        adminButton.setBounds(1066,500,300,140);
+        adminButton.setBounds(1066,454,300,140);
 
         storageButton.addActionListener(this);
         projectsButton.addActionListener(this);
@@ -77,7 +77,11 @@ public class MenuWindowFrame extends NewWindowFrame
         Object source = e.getSource();
         if(source==exitButton)
         {
-            System.exit(0);
+            int result = JOptionPane.showConfirmDialog(null, "Do you really want to leave?", "Exit", JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.YES_OPTION)
+            {
+                System.exit(0);
+            }
         }
         else if(source == storageButton)
         {
