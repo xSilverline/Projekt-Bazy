@@ -20,6 +20,7 @@ public class DBConnector {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
         } catch (Exception ex) {
             System.out.println("DBConnector.DBConnector: Could not set the drivers.");
+            ex.printStackTrace();
         }
     }
 
@@ -31,6 +32,7 @@ public class DBConnector {
             }
             connection = DriverManager.getConnection(addr, loginInfo);
         } catch (SQLException ex) {
+            System.out.println("DBConnector.connect: Could not connect.");
             ex.printStackTrace();
         }
     }
@@ -39,6 +41,7 @@ public class DBConnector {
         try {
             connection.close();
         } catch (SQLException ex) {
+            System.out.println("DBConnector.disconnect: Could not disconnect.");
             ex.printStackTrace();
         }
     }
@@ -109,6 +112,7 @@ public class DBConnector {
 
 
         } catch (SQLException ex) {
+            System.out.println("DBConnector.checkIfUserExists: Exception has occurred.");
             ex.printStackTrace();
             return -1;
         }
@@ -117,6 +121,7 @@ public class DBConnector {
                 try {
                     s.close();
                 } catch (SQLException e) {
+                    System.out.println("DBConnector.checkIfUserExists: Exception has occurred.");
                     e.printStackTrace();
                 }
             }
@@ -137,9 +142,10 @@ public class DBConnector {
         try {
             CallableStatement statement = connection.prepareCall(query);
             statement.execute();
-            System.out.println("DBConnector.addUser: User created.");
+            System.out.println("DBConnector.addUser: User added.");
             return 1;
         } catch (SQLException e) {
+            System.out.println("DBConnector.addUser: Exception has occurred. Could not add user.");
             e.printStackTrace();
             return 0;
         }
