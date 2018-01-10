@@ -11,7 +11,7 @@ public class Server {
     DBConnector dbConnector;
 
     public Server(){
-        this.dbConnector = new DBConnector("jdbc:mysql//localhost:3306/projekt-bazy");
+        this.dbConnector = new DBConnector("jdbc:mysql://localhost:3306/projekt-bazy");
     }
 
     /**

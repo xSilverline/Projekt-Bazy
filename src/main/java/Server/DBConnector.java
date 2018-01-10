@@ -9,7 +9,7 @@ import java.util.Properties;
 public class DBConnector {
     private String addr;
     private Properties loginInfo;
-    private Connection connection;
+    private Connection connection = null;
 
     DBConnector(String addr) {
         this.addr = addr;
@@ -22,7 +22,7 @@ public class DBConnector {
 
     private void connect(){
         try {
-            if(!connection.isClosed()){
+            if(connection != null){
                 connection.close();
                 //log out from the default account
             }
@@ -59,7 +59,7 @@ public class DBConnector {
         //the table with user accounts!!!
         try {
             if(connection.isClosed()){
-                connection = DriverManager.getConnection(addr, "root", "doktorsyga");
+                connection = DriverManager.getConnection(addr, "dbmeta", "doktorsyga");
             }
             s = connection.createStatement();
             String tmpLogin = null;
