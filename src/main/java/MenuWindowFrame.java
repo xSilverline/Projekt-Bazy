@@ -24,16 +24,17 @@ public class MenuWindowFrame extends NewWindowFrame
     @Override
     void makeGui()
     {
-        exitButton = new MenuButton("Exit");
+
+        exitButton = new MenuButton("WYJŚĆIE");
         exitButton.setBounds(1066,594,300,140);
         exitButton.addActionListener(this);
 
-        storageButton = new MenuButton("STORAGE");
-        projectsButton = new MenuButton("PROJECTS");
-        crewButton = new MenuButton("CREW");
-        neededButton = new MenuButton("REQUESTS");
-        orderedButton = new MenuButton("ORDERS");
-        adminButton = new MenuButton("EDITION");
+        storageButton = new MenuButton("MAGAZYN");
+        projectsButton = new MenuButton("PROJEKTY");
+        crewButton = new MenuButton("KADRA");
+        neededButton = new MenuButton("POTRZEBNE");
+        orderedButton = new MenuButton("ZAMÓWIONE");
+        adminButton = new MenuButton("ZARZĄDZANIE");
         infoButton = new JButton("INFO");
 
         storageButton.setBounds(0,34,300,140);

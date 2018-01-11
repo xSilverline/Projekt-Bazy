@@ -4,39 +4,64 @@ import java.awt.event.ActionEvent;
 public class AddStorageDialog extends NewWindowDialog
 {
     private Client client;
-    JTextField nameField;
-    JTextField numberField;
-    JTextField valueField;
-    private JLabel nameLabel;
-    private JLabel numberLabel;
-    private JLabel valueLabel;
+
+    private MenuButton addButton;
+    private MenuButton closeButton;
 
     AddStorageDialog(Client client)
     {
         this.client=client;
         buildDialog();
         makeGui();
+        setModalityType(ModalityType.APPLICATION_MODAL);
+        setVisible(true);
 
     }
     @Override
     void makeGui()
     {
+        /*
+        panel = new JPanel();
+        panel.setBounds(0,0,800,600);
+        add(panel);
+        panel.setLayout(null);*/
+        //panel.setBackground();
 
-        nameLabel = new JLabel("MATERIAL:");
-        numberLabel = new JLabel("ILOSC:");
-        valueLabel = new JLabel("WARTOSC_SZTUKI:");
+        JLabel titleLabel = new JLabel("DODAWANIE DO MAGAZYNU");
+        titleLabel.setBounds(200,10,400,50);
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel.setFont(titleLabel.getFont().deriveFont(40f));
+        add(titleLabel);
 
-        nameField = new JTextField("",30);
-        numberField = new JTextField("",5);
-        valueField = new JTextField("",10);
+        addButton = new MenuButton("DODAJ");
+        closeButton = new MenuButton("ZAMKNIJ");
 
-        nameLabel.setBounds(150,200,100,50);
-        numberLabel.setBounds(150,260,100,50);
-        valueField.setBounds(150,320,100,50);
+        addButton.setBounds(300,400,200,50);
+        closeButton.setBounds(590,540,200,50);
 
-        nameField.setBounds(250,210,300,30);
-        numberField.setBounds(250,270,300,30);
-        valueField.setBounds(250,330,300,30);
+        JLabel nameLabel = new JLabel("MATERIAL:");
+        JLabel numberLabel = new JLabel("ILOSC:");
+        JLabel valueLabel = new JLabel("WARTOSC SZTUKI:");
+
+        JTextField nameField = new JTextField("", 30);
+        JTextField numberField = new JTextField("", 5);
+        JTextField valueField = new JTextField("", 10);
+
+        nameLabel.setBounds(150,200,140,50);
+        numberLabel.setBounds(150,260,140,50);
+        valueLabel.setBounds(150,320,140,50);
+
+        nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        numberLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        valueLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        nameField.setBounds(300,210,200,30);
+        numberField.setBounds(300,270,200,30);
+        valueField.setBounds(300,330,200,30);
+
+        numberField.setFont(nameField.getFont().deriveFont(20f));
+        nameField.setFont(nameField.getFont().deriveFont(20f));
+        valueField.setFont(valueField.getFont().deriveFont(20f));
 
         add(nameField);
         add(numberField);
@@ -46,11 +71,26 @@ public class AddStorageDialog extends NewWindowDialog
         add(numberLabel);
         add(valueLabel);
 
+        add(addButton);
+        add(closeButton);
+
+        addButton.addActionListener(this);
+        closeButton.addActionListener(this);
 
     }
     @Override
     public void actionPerformed(ActionEvent e)
     {
+        Object source = e.getSource();
+        if(source == closeButton)
+        {
+            dispose();
+        }
+        else if(source == addButton)
+        {
+            dispose();
+            //TODO: add to storage
+        }
 
     }
 }

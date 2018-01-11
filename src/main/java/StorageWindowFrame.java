@@ -17,12 +17,12 @@ public class StorageWindowFrame extends NewWindowFrame
     void makeGui()
     {
 
-        returnButton = new JButton("RETURN");
+        returnButton = new JButton("POWRÓT");
         returnButton.setBounds(1256,728,100,30);
         add(returnButton);
         returnButton.addActionListener(this);
 
-        addButton = new MenuButton("ADD");
+        addButton = new MenuButton("DODAJ");
         addButton.setBounds(0,100,200,50);
         add(addButton);
         addButton.addActionListener(this);
