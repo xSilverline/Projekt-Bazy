@@ -2,6 +2,8 @@ import org.junit.Before;
 import Server.*;
 import org.junit.Test;
 
+import java.sql.SQLException;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -33,6 +35,8 @@ public class DBConnectorTest {
         assertEquals(1, server.removeProject("1"));
         server.logout();
     }
+
+
 
 
 

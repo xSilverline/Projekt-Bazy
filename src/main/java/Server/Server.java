@@ -8,7 +8,7 @@ package Server;
  * A class communicating with the database through JDBC lmao not
  */
 public class Server {
-    DBConnector dbConnector;
+    private DBConnector dbConnector;
 
     public Server(){
         this.dbConnector = new DBConnector("jdbc:mysql://localhost:3306/projekt-bazy");
