@@ -24,7 +24,47 @@ public class Client
 
     void setEditStorageDialog()
     {
-        new EditStorageButton(this);
+        new EditStorageDialog(this);
+    }
+
+    void setAddProjectDialog()
+    {
+        new AddProjectDialog(this);
+    }
+
+    void setEditProjectDialog()
+    {
+
+    }
+
+    void setAddRequestDialog()
+    {
+
+    }
+
+    void setEditRequestDialog()
+    {
+
+    }
+
+    void setAddCrewDialog()
+    {
+
+    }
+
+    void setEditCrewDialog()
+    {
+
+    }
+
+    void setAddOrdersDialog()
+    {
+
+    }
+
+    void setEditOrdersDialog()
+    {
+
     }
 
     void setMenuWindow()

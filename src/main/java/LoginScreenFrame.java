@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -87,6 +88,12 @@ public class LoginScreenFrame extends NewWindowFrame {
             dispose();
             //TODO: if login successful then show message, dispose, show MenuWindow (via Client Class)
         }
+
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e)
+    {
 
     }
 }

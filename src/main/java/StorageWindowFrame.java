@@ -3,7 +3,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 
-public class StorageWindowFrame extends NewWindowFrame implements ListSelectionListener
+public class StorageWindowFrame extends NewWindowFrame
 {
     private Client client;
     private JButton returnButton;
@@ -47,6 +47,7 @@ public class StorageWindowFrame extends NewWindowFrame implements ListSelectionL
         addButton.setBounds(0,100,200,50);
         add(addButton);
         addButton.addActionListener(this);
+
     }
 
     @Override

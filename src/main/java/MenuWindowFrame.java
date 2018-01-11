@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionEvent;
 
 public class MenuWindowFrame extends NewWindowFrame
@@ -78,7 +79,7 @@ public class MenuWindowFrame extends NewWindowFrame
         Object source = e.getSource();
         if(source==exitButton)
         {
-            int result = JOptionPane.showConfirmDialog(null, "Do you really want to leave?", "Exit", JOptionPane.YES_NO_OPTION);
+            int result = JOptionPane.showConfirmDialog(null, "CZY CHCESZ WYJŚĆ Z PROGRAMU?", "Exit", JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION)
             {
                 System.exit(0);
@@ -123,5 +124,11 @@ public class MenuWindowFrame extends NewWindowFrame
         {
             JOptionPane.showMessageDialog(null,"INFO","INFO",JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e)
+    {
+
     }
 }

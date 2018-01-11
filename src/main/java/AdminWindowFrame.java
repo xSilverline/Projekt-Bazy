@@ -1,3 +1,4 @@
+import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionEvent;
 
 public class AdminWindowFrame extends NewWindowFrame
@@ -21,6 +22,12 @@ public class AdminWindowFrame extends NewWindowFrame
     }
 
     public void actionPerformed(ActionEvent e)
+    {
+
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e)
     {
 
     }
