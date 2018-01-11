@@ -32,7 +32,7 @@ public class Server {
         if(exists == 1){
             dbConnector.login(login, password);
             System.out.println("Server.login: Logged in.");
-            //At this point we are connected to database
+            dbConnector.connect();
             return 1;
         }
         else if(exists == 0){
@@ -41,6 +41,10 @@ public class Server {
         }
         System.out.println("Server.login: Exception has occurred.");
         return -1;
+    }
+
+    public void logout(){
+        dbConnector.disconnect();
     }
 
     /**
@@ -73,6 +77,32 @@ public class Server {
             return 0;
         }
         System.out.println("Server.register: Exception has occurred.");
+        return -1;
+    }
+
+
+    public int removeUser(String login) {
+        if(!dbConnector.checkValidLogin(login, login)){
+            System.out.println("Server.removeUser: Invalid input.");
+            return -2;
+        }
+        int exists = dbConnector.checkIfLoginExists(login);
+        if(exists == 1){
+            int delete = dbConnector.removeUser(login);
+            if(delete == 1){
+                System.out.println("Server.removeUser: User deleted.");
+                return 1;
+            }
+            else if (delete == 0){
+                System.out.println("Server.removeUser: Couldn't delete user.");
+                return -1;
+            }
+        }
+        else if(exists == 0){
+            System.out.println("Server.removeUser: User doesn't exist.");
+            return 0;
+        }
+        System.out.println("Server.removeUser: Exception has occurred.");
         return -1;
     }
 }

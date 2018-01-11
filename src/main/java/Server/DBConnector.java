@@ -24,7 +24,7 @@ public class DBConnector {
         }
     }
 
-    private void connect(){
+    protected void connect(){
         try {
             if(connection != null){
                 connection.close();
@@ -37,7 +37,7 @@ public class DBConnector {
         }
     }
 
-    private void disconnect(){
+    protected void disconnect(){
         try {
             connection.close();
         } catch (SQLException ex) {
@@ -129,14 +129,32 @@ public class DBConnector {
         }
     }
 
+    /**
+     *
+     * @param login
+     * @return 1 if user exists, 0 if user doesn't exist, -1 if exception has occurred.
+     */
+    public int checkIfLoginExists(String login) {
+        //TODO Implement checking if user with login exists
+    }
+
     protected void login(String login, String password){
         //We remember username and password and save it in private variables for later use
         loginInfo = new Properties();
         loginInfo.put("user", login);
         loginInfo.put("password", password);
-        connect();
     }
 
+    /**
+     *
+     * @param imie
+     * @param nazwisko
+     * @param stanowisko
+     * @param pensja
+     * @param login
+     * @param password
+     * @return 1 if user created, 0 if exception
+     */
     protected int addUser(String imie, String nazwisko, String stanowisko, String pensja, String login, String password){
         String query = "CALL createUser('"+imie+"', '"+nazwisko+"', '"+stanowisko+"', "+pensja+", '"+login+"', '"+password+"');";
         try {
@@ -151,5 +169,14 @@ public class DBConnector {
         }
 
 
+    }
+
+    /**
+     *
+     * @param login
+     * @return 1 if user removed, 0 if exception
+     */
+    public int removeUser(String login) {
+        //TODO Implement calling removeUser procedure in MySQL
     }
 }
