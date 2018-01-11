@@ -27,6 +27,7 @@ public class DBConnector {
     private void doCall(String query) throws SQLException {
         CallableStatement statement = connection.prepareCall(query);
         statement.execute();
+        statement.close();
 
     }
 
@@ -50,6 +51,13 @@ public class DBConnector {
             System.out.println("DBConnector.disconnect: Could not disconnect.");
             ex.printStackTrace();
         }
+    }
+
+    protected void login(String login, String password){
+        //We remember username and password and save it in private variables for later use
+        loginInfo = new Properties();
+        loginInfo.put("user", login);
+        loginInfo.put("password", password);
     }
 
     protected boolean checkValidLogin(String login, String password){
@@ -80,6 +88,21 @@ public class DBConnector {
         return false;
     }
 
+    protected boolean checkValidId(String id){
+        Pattern p = Pattern.compile("[0-9]+");
+        Matcher m = p.matcher(id);
+        int counter = 0;
+        while (m.find()){
+            counter++;
+        }
+        if(counter == 1){
+            System.out.println("DBConnector.checkValidId: Id is correct.");
+            return true;
+        }
+        System.out.println("DBConnector.checkValidId: Id is incorrect.");
+        return false;
+    }
+
     /**
      *
      * @param login
@@ -98,16 +121,13 @@ public class DBConnector {
                 connection = DriverManager.getConnection(addr, "dbmeta", "doktorsyga");
             }
             s = connection.createStatement();
-            String tmpLogin = null;
-            String tmpPassword = null;
+            int counter = 0;
             ResultSet rs = s.executeQuery(query);
             while(rs.next()){
-                //Only one row is returned... supposedly
-                tmpLogin = rs.getString("Login");
-                tmpPassword = rs.getString("Haslo");
+                counter++;
             }
 
-            if(login.equals(tmpLogin) && password.equals(tmpPassword)){
+            if(counter == 1){
                 System.out.println("DBConnector.checkIfUserExists: User exists.");
                 return 1;
             }
@@ -146,14 +166,14 @@ public class DBConnector {
         //the table with user accounts!!!
         try {
             s = connection.createStatement();
-            String tmpLogin = null;
+            int counter = 0;
             ResultSet rs = s.executeQuery(query);
             while(rs.next()){
                 //Only one row is returned... supposedly
-                tmpLogin = rs.getString("Login");
+                counter++;
             }
 
-            if(login.equals(tmpLogin)){
+            if(counter == 1){
                 System.out.println("DBConnector.checkIfLoginExists: User exists.");
                 return 1;
             }
@@ -179,12 +199,50 @@ public class DBConnector {
         }
     }
 
-    protected void login(String login, String password){
-        //We remember username and password and save it in private variables for later use
-        loginInfo = new Properties();
-        loginInfo.put("user", login);
-        loginInfo.put("password", password);
+    /**
+     *
+     * @param id of project
+     * @return 1 if project exists, 0 if does not, -1 if exception
+     */
+    protected int checkIfProjectExists(String id){
+        Statement s = null;
+        String query = "SELECT projekty.id FROM projekty WHERE projekty.id = "+id+";";
+        try {
+            s = connection.createStatement();
+            int counter = 0;
+            ResultSet rs = s.executeQuery(query);
+            while(rs.next()){
+                //Only one row is returned... supposedly
+                counter++;
+            }
+
+            if(counter == 1){
+                System.out.println("DBConnector.checkIfProjectExists: Project exists.");
+                return 1;
+            }
+            else {
+                System.out.println("DBConnector.checkIfProjectExists: Project doesn't exist.");
+                return 0;
+            }
+        } catch (SQLException ex) {
+            System.out.println("DBConnector.checkIfProjectExists: Exception has occurred.");
+            ex.printStackTrace();
+            return -1;
+        }
+        finally{
+            if(s != null){
+                try {
+                    s.close();
+                } catch (SQLException e) {
+                    System.out.println("DBConnector.checkIfProjectExists: Exception has occurred.");
+                    e.printStackTrace();
+                }
+            }
+
+        }
     }
+
+
 
     /**
      *
@@ -262,8 +320,13 @@ public class DBConnector {
         }
     }
 
-    protected int removeProject(String nazwa){
-        String query = "CALL removeProject('"+nazwa+"');";
+    /**
+     *
+     * @param id
+     * @return 1 if project removed, 0 if exception
+     */
+    protected int removeProject(String id){
+        String query = "CALL removeProject('"+id+"');";
         try{
             doCall(query);
             System.out.println("DBConnector.removeProject: Project removed.");

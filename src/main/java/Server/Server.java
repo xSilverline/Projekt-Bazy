@@ -106,11 +106,58 @@ public class Server {
         return -1;
     }
 
-    public int addProject(){
-        //TODO Implement
+    /**
+     *
+     * @param nazwa
+     * @param data_rozpoczecia
+     * @param termin
+     * @param ilosc
+     * @param nadzorca
+     * @param zamawiajacy
+     * @param wynagrodzenie
+     * @param budzet
+     * @param koszt_materialow
+     * @param koszt_calkowity
+     * @param status
+     * @return 1 if project added, 0 if exception
+     */
+    public int addProject(String nazwa, String data_rozpoczecia, String termin, String ilosc, String nadzorca, String zamawiajacy, String wynagrodzenie, String budzet, String koszt_materialow, String koszt_calkowity, String status){
+        int add = dbConnector.addProject(nazwa, data_rozpoczecia, termin, ilosc, nadzorca, zamawiajacy, wynagrodzenie, budzet, koszt_materialow, koszt_calkowity, status);
+        if(add == 1){
+            System.out.println("Server.addProject: Project added.");
+            return 1;
+        }
+        System.out.println("Server.addProject: Could not add project.");
+        return 0;
     }
 
-    public int removeProject(){
-        //TODO Implement
+    /**
+     *
+     * @param id of project
+     * @return 1 if project deleted, 0 if does not exist, -1 if exception, -2 if invalid input
+     */
+    public int removeProject(String id){
+        if(!dbConnector.checkValidId(id)){
+            System.out.println("Server.removeProject: Invalid input.");
+            return -2;
+        }
+        int exists = dbConnector.checkIfProjectExists(id);
+        if(exists == 1){
+            int delete = dbConnector.removeProject(id);
+            if(delete == 1){
+                System.out.println("Server.removeProject: Project deleted.");
+                return 1;
+            }
+            else if (delete == 0){
+                System.out.println("Server.removeProject: Could not delete project.");
+                return -1;
+            }
+        }
+        else if(exists == 0){
+            System.out.println("Server.removeProject: Project does not exist.");
+            return 0;
+        }
+        System.out.println("Server.removeProject: Exception has occurred.");
+        return -1;
     }
 }

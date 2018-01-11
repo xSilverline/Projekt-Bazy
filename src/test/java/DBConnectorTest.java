@@ -26,6 +26,14 @@ public class DBConnectorTest {
         server.logout();
     }
 
+    @Test
+    public void shouldCreateProjectAndDelete(){
+        server.login("dbmeta", "doktorsyga");
+        assertEquals(1, server.addProject("Test", "21-08-1997", "24-01-2018", "3", "1", "Mati", "6502", "86", "1000", "2000", "Oczekujacy"));
+        assertEquals(1, server.removeProject("1"));
+        server.logout();
+    }
+
 
 
 
