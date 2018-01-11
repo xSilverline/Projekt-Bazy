@@ -338,6 +338,32 @@ public class DBConnector {
         }
     }
 
+    protected int addRequired(String projekt, String material, String ilosc_potrzebna, String ilosc_zgromadzona, String ilosc_brakujaca, String wartosc){
+        String query = "CALL addRequired("+projekt+", '"+material+"', "+ilosc_potrzebna+", "+ilosc_zgromadzona+", "+ilosc_brakujaca+", "+wartosc+");";
+        try{
+            doCall(query);
+            System.out.println("DBConnector.addRequired: Required added.");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.addRequired: Exception has occurred. Could not add required.");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    protected int addOrder(String material, String ilosc_zamowiona, String wartosc, String data_zamowienia, String status){
+        String query = "CALL addOrder('"+material+"', "+ilosc_zamowiona+", "+wartosc+", '"+data_zamowienia+"', '"+status+"');";
+        try{
+            doCall(query);
+            System.out.println("DBConnector.addOrder: Order added.");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.addOrder: Exception has occurred. Could not add order.");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
 
 
 

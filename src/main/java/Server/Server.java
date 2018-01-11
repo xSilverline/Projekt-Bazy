@@ -160,4 +160,53 @@ public class Server {
         System.out.println("Server.removeProject: Exception has occurred.");
         return -1;
     }
+
+    /**
+     *
+     * @param projekt
+     * @param material
+     * @param ilosc_potrzebna
+     * @param ilosc_zgromadzona
+     * @param ilosc_brakujaca
+     * @param wartosc
+     * @return 1 if required added, 0 if does not exist, -1 if exception
+     */
+    public int addRequired(String projekt, String material, String ilosc_potrzebna, String ilosc_zgromadzona, String ilosc_brakujaca, String wartosc){
+        int exists = dbConnector.checkIfProjectExists(projekt);
+        if(exists == 0){
+            System.out.println("Server.addRequired: Project does not exist.");
+            return 0;
+        }
+        if(exists == -1){
+            System.out.println("Server.addRequired: Exception has occurred.");
+            return -1;
+        }
+        int add = dbConnector.addRequired(projekt, material, ilosc_potrzebna, ilosc_zgromadzona, ilosc_brakujaca, wartosc);
+        if(add == 0){
+            System.out.println("Server.addRequired: Could not add required.");
+            return -1;
+        }
+        System.out.println("Server.addRequired: Required added.");
+        return 1;
+
+    }
+
+    /**
+     *
+     * @param material
+     * @param ilosc_zamowiona
+     * @param wartosc
+     * @param data_zamowienia
+     * @param status
+     * @return 1 if order added, 0 if exception
+     */
+    public int addOrder(String material, String ilosc_zamowiona, String wartosc, String data_zamowienia, String status){
+        int add = dbConnector.addOrder(material, ilosc_zamowiona, wartosc, data_zamowienia, status);
+        if(add == 0){
+            System.out.println("Server.addOrder: Could not add order");
+            return 0;
+        }
+        System.out.println("Server.addOrder: Order added.");
+        return 1;
+    }
 }
