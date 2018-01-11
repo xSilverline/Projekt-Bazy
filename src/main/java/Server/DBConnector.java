@@ -177,6 +177,16 @@ public class DBConnector {
      * @return 1 if user removed, 0 if exception
      */
     public int removeUser(String login) {
-        //TODO Implement calling removeUser procedure in MySQL
+        String query = "CALL removeUser('"+login+"');";
+        try{
+            CallableStatement statement = connection.prepareCall(query);
+            statement.execute();
+            System.out.println("DBConnector.removeUser: User removed.");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.removeUser: Exception has occurred. Could not remove user.");
+            e.printStackTrace();
+            return 0;
+        }
     }
 }
