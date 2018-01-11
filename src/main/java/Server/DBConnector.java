@@ -123,7 +123,6 @@ public class DBConnector {
                     e.printStackTrace();
                 }
             }
-
         }
     }
 
@@ -132,7 +131,7 @@ public class DBConnector {
      * @param login
      * @return 1 if user exists, 0 if user doesn't exist, -1 if exception has occurred.
      */
-    public int checkIfLoginExists(String login) {
+    protected int checkIfLoginExists(String login) {
         Statement s = null;
         String query = "SELECT kadra.login FROM kadra WHERE kadra.login = '"+login+"';";
 
@@ -191,6 +190,13 @@ public class DBConnector {
      * @param password
      * @return 1 if user created, 0 if exception
      */
+
+    //==================================================================================================================
+    //
+    //ADDING REMOVING THINGS
+    //
+    //==================================================================================================================
+
     protected int addUser(String imie, String nazwisko, String stanowisko, String pensja, String login, String password){
         String query = "CALL createUser('"+imie+"', '"+nazwisko+"', '"+stanowisko+"', "+pensja+", '"+login+"', '"+password+"');";
         try {
@@ -203,8 +209,6 @@ public class DBConnector {
             e.printStackTrace();
             return 0;
         }
-
-
     }
 
     /**
@@ -212,7 +216,7 @@ public class DBConnector {
      * @param login
      * @return 1 if user removed, 0 if exception
      */
-    public int removeUser(String login) {
+    protected int removeUser(String login) {
         String query = "CALL removeUser('"+login+"');";
         try{
             CallableStatement statement = connection.prepareCall(query);
@@ -225,4 +229,14 @@ public class DBConnector {
             return 0;
         }
     }
+
+    protected int addProject(){
+        //TODO Implement adding project
+    }
+
+    protected int removeProject(){
+        //TODO Implement removing project
+    }
+
+
 }

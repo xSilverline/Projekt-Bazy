@@ -5,7 +5,7 @@ package Server;
  */
 
 /**
- * A class communicating with the database through JDBC
+ * A class communicating with the database through JDBC lmao not
  */
 public class Server {
     DBConnector dbConnector;
@@ -104,5 +104,13 @@ public class Server {
         }
         System.out.println("Server.removeUser: Exception has occurred.");
         return -1;
+    }
+
+    public int addProject(){
+        //TODO Implement
+    }
+
+    public int removeProject(){
+        //TODO Implement
     }
 }
