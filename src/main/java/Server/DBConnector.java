@@ -24,6 +24,12 @@ public class DBConnector {
         }
     }
 
+    private void doCall(String query) throws SQLException {
+        CallableStatement statement = connection.prepareCall(query);
+        statement.execute();
+
+    }
+
     protected void connect(){
         try {
             if(connection != null){
@@ -200,8 +206,7 @@ public class DBConnector {
     protected int addUser(String imie, String nazwisko, String stanowisko, String pensja, String login, String password){
         String query = "CALL createUser('"+imie+"', '"+nazwisko+"', '"+stanowisko+"', "+pensja+", '"+login+"', '"+password+"');";
         try {
-            CallableStatement statement = connection.prepareCall(query);
-            statement.execute();
+            doCall(query);
             System.out.println("DBConnector.addUser: User added.");
             return 1;
         } catch (SQLException e) {
@@ -219,8 +224,7 @@ public class DBConnector {
     protected int removeUser(String login) {
         String query = "CALL removeUser('"+login+"');";
         try{
-            CallableStatement statement = connection.prepareCall(query);
-            statement.execute();
+            doCall(query);
             System.out.println("DBConnector.removeUser: User removed.");
             return 1;
         } catch (SQLException e) {
@@ -230,13 +234,48 @@ public class DBConnector {
         }
     }
 
-    protected int addProject(){
-        //TODO Implement adding project
+    /**
+     *
+     * @param nazwa
+     * @param data_rozpoczecia
+     * @param termin
+     * @param ilosc
+     * @param nadzorca
+     * @param zamawiajacy
+     * @param wynagrodzenie
+     * @param budzet
+     * @param koszt_materialow
+     * @param koszt_calkowity
+     * @param status
+     * @return 1 if project added, 0 if exception
+     */
+    protected int addProject(String nazwa, String data_rozpoczecia, String termin, String ilosc, String nadzorca, String zamawiajacy, String wynagrodzenie, String budzet, String koszt_materialow, String koszt_calkowity, String status){
+        String query = "CALL addProject('"+nazwa+"', '"+data_rozpoczecia+"', '"+termin+"', "+ilosc+", "+nadzorca+", '"+zamawiajacy+"', "+wynagrodzenie+", "+budzet+", "+koszt_materialow+", "+koszt_calkowity+", "+status+");";
+        try{
+            doCall(query);
+            System.out.println("DBConnector.addProject: Project added.");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.addProject: Exception has occurred. Could not add project.");
+            e.printStackTrace();
+            return 0;
+        }
     }
 
-    protected int removeProject(){
-        //TODO Implement removing project
+    protected int removeProject(String nazwa){
+        String query = "CALL removeProject('"+nazwa+"');";
+        try{
+            doCall(query);
+            System.out.println("DBConnector.removeProject: Project removed.");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.removeProject: Exception has occurred. Could not remove project.");
+            e.printStackTrace();
+            return 0;
+        }
     }
+
+
 
 
 }
