@@ -28,7 +28,7 @@ public class AddStorageDialog extends NewWindowDialog
         //panel.setBackground();
 
         JLabel titleLabel = new JLabel("DODAWANIE DO MAGAZYNU");
-        titleLabel.setBounds(200,10,400,50);
+        titleLabel.setBounds(100,10,600,50);
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         titleLabel.setFont(titleLabel.getFont().deriveFont(40f));
         add(titleLabel);

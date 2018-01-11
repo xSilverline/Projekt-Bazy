@@ -22,6 +22,11 @@ public class Client
         new AddStorageDialog(this);
     }
 
+    void setEditStorageDialog()
+    {
+        new EditStorageButton(this);
+    }
+
     void setMenuWindow()
     {
         new MenuWindowFrame(this,0);
