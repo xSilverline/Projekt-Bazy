@@ -20,12 +20,6 @@ public class AddStorageDialog extends NewWindowDialog
     @Override
     void makeGui()
     {
-        /*
-        panel = new JPanel();
-        panel.setBounds(0,0,800,600);
-        add(panel);
-        panel.setLayout(null);*/
-        //panel.setBackground();
 
         JLabel titleLabel = new JLabel("DODAWANIE DO MAGAZYNU");
         titleLabel.setBounds(100,10,600,50);
