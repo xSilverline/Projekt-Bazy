@@ -109,8 +109,6 @@ public class DBConnector {
                 System.out.println("DBConnector.checkIfUserExists: User doesn't exist.");
                 return 0;
             }
-
-
         } catch (SQLException ex) {
             System.out.println("DBConnector.checkIfUserExists: Exception has occurred.");
             ex.printStackTrace();
@@ -135,7 +133,45 @@ public class DBConnector {
      * @return 1 if user exists, 0 if user doesn't exist, -1 if exception has occurred.
      */
     public int checkIfLoginExists(String login) {
-        //TODO Implement checking if user with login exists
+        Statement s = null;
+        String query = "SELECT kadra.login FROM kadra WHERE kadra.login = '"+login+"';";
+
+        //We are connecting with default account to check if desired user exists. If we are already logged in,
+        //we don't use default account, BUT we have to remember that used account has to have permission to view
+        //the table with user accounts!!!
+        try {
+            s = connection.createStatement();
+            String tmpLogin = null;
+            ResultSet rs = s.executeQuery(query);
+            while(rs.next()){
+                //Only one row is returned... supposedly
+                tmpLogin = rs.getString("Login");
+            }
+
+            if(login.equals(tmpLogin)){
+                System.out.println("DBConnector.checkIfLoginExists: User exists.");
+                return 1;
+            }
+            else {
+                System.out.println("DBConnector.checkIfLoginExists: User doesn't exist.");
+                return 0;
+            }
+        } catch (SQLException ex) {
+            System.out.println("DBConnector.checkIfLoginExists: Exception has occurred.");
+            ex.printStackTrace();
+            return -1;
+        }
+        finally{
+            if(s != null){
+                try {
+                    s.close();
+                } catch (SQLException e) {
+                    System.out.println("DBConnector.checkIfLoginExists: Exception has occurred.");
+                    e.printStackTrace();
+                }
+            }
+
+        }
     }
 
     protected void login(String login, String password){
