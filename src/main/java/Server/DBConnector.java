@@ -431,7 +431,7 @@ public class DBConnector {
 
     protected ResultSet getRequired(){
         Statement s = null;
-        String query = "SELECT * FROM magazyn;";
+        String query = "SELECT * FROM potrzebne;";
         try{
             s = connection.createStatement();
             ResultSet rs = s.executeQuery(query);
