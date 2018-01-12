@@ -9,6 +9,7 @@ public class StorageWindowFrame extends NewWindowFrame
     private JButton returnButton;
     private MenuButton addButton;
     private MenuButton editButton;
+    private MenuButton deleteButton;
     private JLabel materialLabel;
     private JLabel numberLabel;
     private JLabel valueLabel;
@@ -34,6 +35,12 @@ public class StorageWindowFrame extends NewWindowFrame
         scrollList.setBounds(100,150,300,400);
         add(scrollList);
         storageList.addListSelectionListener(this);
+
+        deleteButton = new MenuButton("USUŃ");
+        deleteButton.setBounds(150,90,200,50);
+        add(deleteButton);
+        deleteButton.addActionListener(this);
+        deleteButton.setEnabled(false);
 
         editButton = new MenuButton("EDYTUJ");
         editButton.setBounds(150,620,200,50);
@@ -100,6 +107,10 @@ public class StorageWindowFrame extends NewWindowFrame
         {
             client.setEditStorageDialog();
         }
+        else if(source == deleteButton)
+        {
+
+        }
 
     }
 
@@ -108,5 +119,6 @@ public class StorageWindowFrame extends NewWindowFrame
     {
         editButton.setEnabled(true);
         setInfoStorage();
+        deleteButton.setEnabled(true);
     }
 }

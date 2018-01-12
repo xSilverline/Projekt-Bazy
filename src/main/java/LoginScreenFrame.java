@@ -3,6 +3,8 @@ import javax.swing.event.ListSelectionEvent;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class LoginScreenFrame extends NewWindowFrame {
 
@@ -15,6 +17,9 @@ public class LoginScreenFrame extends NewWindowFrame {
     private JTextField passwordText = new JTextField("",30);
     private JTextField userText = new JTextField("",30);
     private JPanel panel;
+
+    private String login;
+    private String pass;
 
     LoginScreenFrame(Client client)
     {
@@ -86,7 +91,19 @@ public class LoginScreenFrame extends NewWindowFrame {
         {
             client.setMenuWindow();
             dispose();
-            //TODO: if login successful then show message, dispose, show MenuWindow (via Client Class)
+            login = userText.getText().trim();
+            pass = passwordText.getText().trim();
+               /* if (client.server.login(login, pass) == 1)
+                {
+
+                    ResultSet rs = client.server.showEmployees();
+
+
+                    client.setMenuWindow();
+                    dispose();
+                }*/
+                //TODO: if login successful then show message, dispose, show MenuWindow (via Client Class)
+
         }
 
     }
