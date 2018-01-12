@@ -444,6 +444,28 @@ public class DBConnector {
         }
     }
 
+    protected String getStanowisko(String login){
+        Statement s = null;
+        String query = "SELECT kadra.stanowisko FROM kadra WHERE kadra.login = '"+login+"';";
+        try{
+            s = connection.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            System.out.println("DBConnector.getStanowisko: Stanowisko got.");
+            rs.next();
+            return rs.getString("Stanowisko");
+        } catch (SQLException e) {
+            System.out.println("DBConnector.getStanowisko: Exception has occurred. Could not get stanowisko");
+            e.printStackTrace();
+            return null;
+        } finally{
+            try {
+                s.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     protected ResultSet getOrders(){
         Statement s = null;
         String query = "SELECT * FROM zamowione;";

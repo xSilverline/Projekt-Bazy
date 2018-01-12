@@ -259,4 +259,9 @@ public class Server {
         return 0;
     }
 
+    public String getStanowisko(String login){
+        return dbConnector.getStanowisko(login);
+
+    }
+
 }
