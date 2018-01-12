@@ -4,6 +4,8 @@ package Server;
  * Created by Mateusz on 2018-01-08.
  */
 
+import java.sql.ResultSet;
+
 /**
  * A class communicating with the database through JDBC lmao not
  */
@@ -45,6 +47,7 @@ public class Server {
 
     public void logout(){
         dbConnector.disconnect();
+        System.out.println("Server.logout: Logged out.");
     }
 
     /**
@@ -197,16 +200,19 @@ public class Server {
      * @param ilosc_zamowiona
      * @param wartosc
      * @param data_zamowienia
-     * @param status
      * @return 1 if order added, 0 if exception
      */
-    public int addOrder(String material, String ilosc_zamowiona, String wartosc, String data_zamowienia, String status){
-        int add = dbConnector.addOrder(material, ilosc_zamowiona, wartosc, data_zamowienia, status);
+    public int addOrder(String material, String ilosc_zamowiona, String wartosc, String data_zamowienia){
+        int add = dbConnector.addOrder(material, ilosc_zamowiona, wartosc, data_zamowienia);
         if(add == 0){
             System.out.println("Server.addOrder: Could not add order");
             return 0;
         }
         System.out.println("Server.addOrder: Order added.");
         return 1;
+    }
+
+    public ResultSet showProjects(){
+        return dbConnector.getProjects();
     }
 }

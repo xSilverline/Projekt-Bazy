@@ -47,6 +47,7 @@ public class DBConnector {
     protected void disconnect(){
         try {
             connection.close();
+            System.out.println("DBConnector.disconnect: Disconnected.");
         } catch (SQLException ex) {
             System.out.println("DBConnector.disconnect: Could not disconnect.");
             ex.printStackTrace();
@@ -118,6 +119,8 @@ public class DBConnector {
         //the table with user accounts!!!
         try {
             if(connection == null){
+                connection = DriverManager.getConnection(addr, "dbmeta", "doktorsyga");
+            }else if (connection.isClosed()){
                 connection = DriverManager.getConnection(addr, "dbmeta", "doktorsyga");
             }
             s = connection.createStatement();
@@ -351,8 +354,8 @@ public class DBConnector {
         }
     }
 
-    protected int addOrder(String material, String ilosc_zamowiona, String wartosc, String data_zamowienia, String status){
-        String query = "CALL addOrder('"+material+"', "+ilosc_zamowiona+", "+wartosc+", '"+data_zamowienia+"', '"+status+"');";
+    protected int addOrder(String material, String ilosc_zamowiona, String wartosc, String data_zamowienia){
+        String query = "CALL addOrder('"+material+"', "+ilosc_zamowiona+", "+wartosc+", '"+data_zamowienia+"');";
         try{
             doCall(query);
             System.out.println("DBConnector.addOrder: Order added.");
@@ -362,6 +365,38 @@ public class DBConnector {
             e.printStackTrace();
             return 0;
         }
+    }
+
+    //==================================================================================================================
+    //
+    //SHOWING THINGS
+    //
+    //==================================================================================================================
+
+
+    protected ResultSet getProjects(){
+        Statement s = null;
+        String query = "SELECT projekty.id, projekty.Nazwa, projekty.Data_rozpoczecia, projekty.Termin, projekty.Ilosc, projekty.Nadzorca, projekty.Zamawiajacy, projekty.Wynagrodzenie, projekty.Budzet, projekty.Koszt_materialow, projekty.Koszt_calkowity, projekty.Status FROM projekty;";
+        try{
+            s = connection.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            System.out.println("DBConnector.getProjects: ResultSet got.");
+            return rs;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.getProjects: Could not receive ResultSet");
+            e.printStackTrace();
+            return null;
+        } /*finally{
+            try {
+                if (s != null) {
+                    s.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("DBConnector.getProjects: Could not close statement.");
+                e.printStackTrace();
+            }
+        }*/
+        //^^^Because prevents from operations on ResultSet
     }
 
 
