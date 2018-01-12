@@ -34,7 +34,7 @@ public class Client
 
     void setEditProjectDialog()
     {
-
+        new EditProjectDialog(this);
     }
 
     void setAddRequestDialog()
