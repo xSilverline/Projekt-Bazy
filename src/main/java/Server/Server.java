@@ -260,8 +260,18 @@ public class Server {
     }
 
     public String getStanowisko(String login){
+        System.out.println("Server.getStanowisko: Stanowisko got.");
         return dbConnector.getStanowisko(login);
 
+    }
+
+    public int setRequiredAmount(String id, String amount){
+        if(dbConnector.setRequiredAmount(id, amount) == 1){
+            System.out.println("Server.setRequiredAmount: Amount set.");
+            return 1;
+        }
+        System.out.println("Server.setRequiredAmount: Could not set amount.");
+        return 0;
     }
 
 }

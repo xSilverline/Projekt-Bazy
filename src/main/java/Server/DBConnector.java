@@ -526,5 +526,18 @@ public class DBConnector {
         }
     }
 
+    protected int setRequiredAmount(String id, String amount){
+        String query = "CALL setRequiredAmount("+id+", "+amount+");";
+        try{
+            doCall(query);
+            System.out.println("DBConnector.setRequiredAmount: Amount set.");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.setRequiredAmount: Exception has occurred. Could not set order status.");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
 
 }
