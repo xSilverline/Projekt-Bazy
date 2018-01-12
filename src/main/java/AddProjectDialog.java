@@ -13,6 +13,8 @@ public class AddProjectDialog extends NewWindowDialog
         this.client = client;
         buildDialog();
         makeGui();
+        setModalityType(ModalityType.APPLICATION_MODAL);
+        setVisible(true);
     }
 
     @Override
