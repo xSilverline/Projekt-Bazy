@@ -9,6 +9,12 @@ public class CrewWindowFrame extends NewWindowFrame
     private MenuButton addButton;
     private MenuButton editButton;
 
+    private JLabel idLabel;
+    private JLabel nameLabel;
+    private JLabel surLabel;
+    private JLabel posLabel;
+    private JLabel payLabel;
+
     CrewWindowFrame(Client client)
     {
         this.client=client;
@@ -21,19 +27,21 @@ public class CrewWindowFrame extends NewWindowFrame
     {
         JLabel stanLabel = new JLabel("KADRA");
         stanLabel.setFont(stanLabel.getFont().deriveFont(40f));
-        stanLabel.setBounds(483,10,400,50);
+        stanLabel.setBounds(383,10,600,50);
         add(stanLabel);
+        stanLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         DefaultListModel<String> list = new DefaultListModel<>();
         list.addElement("DUPA");
-        JList storageList = new JList(list);
-        JScrollPane scrollList = new JScrollPane(storageList);
-        scrollList.setBounds(283,100,800,600);
+
+        JList requestList = new JList(list);
+        JScrollPane scrollList = new JScrollPane(requestList);
+        scrollList.setBounds(100,150,300,400);
         add(scrollList);
-        storageList.addListSelectionListener(this);
+        requestList.addListSelectionListener(this);
 
         editButton = new MenuButton("EDYTUJ");
-        editButton.setBounds(0,200,200,50);
+        editButton.setBounds(150,620,200,50);
         add(editButton);
         editButton.addActionListener(this);
         editButton.setEnabled(false);
@@ -44,12 +52,51 @@ public class CrewWindowFrame extends NewWindowFrame
         returnButton.addActionListener(this);
 
         addButton = new MenuButton("DODAJ");
-        addButton.setBounds(0,100,200,50);
+        addButton.setBounds(150,560,200,50);
         add(addButton);
         addButton.addActionListener(this);
 
+        idLabel = new JLabel("ID:\t");
+        nameLabel = new JLabel("Imię:\t");
+        surLabel = new JLabel("Nazwisko:\t");
+        posLabel = new JLabel("Stanowisko:\t");
+        payLabel = new JLabel("Pensja:\t");
+
+
+        idLabel.setBounds(500,150,500,30);
+        nameLabel.setBounds(500,180,500,30);
+        surLabel.setBounds(500,210,500,30);
+        posLabel.setBounds(500,240,500,30);
+        payLabel.setBounds(500,270,500,30);
+
+
+
+        idLabel.setFont(idLabel.getFont().deriveFont(15f));
+        nameLabel.setFont(nameLabel.getFont().deriveFont(15f));
+        surLabel.setFont(surLabel.getFont().deriveFont(15f));
+        posLabel.setFont(posLabel.getFont().deriveFont(15f));
+        payLabel.setFont(payLabel.getFont().deriveFont(15f));
+
+
+
+        add(idLabel);
+        add(nameLabel);
+        add(surLabel);
+        add(posLabel);
+        add(payLabel);
+
+
     }
 
+    private void setInfoCrew()
+    {
+        idLabel.setText("ID:\t");
+        nameLabel.setText("Imię:\t");
+        surLabel.setText("Nazwisko:\t");
+        posLabel.setText("Stanowisko:\t");
+        payLabel.setText("Pensja:\t");
+
+    }
 
     void closeWindow()
     {
@@ -68,18 +115,20 @@ public class CrewWindowFrame extends NewWindowFrame
         }
         else if(source == addButton)
         {
-            client.setAddStorageDialog();
+            client.setAddCrewDialog();
 
         }
         else if(source == editButton)
         {
-            client.setEditStorageDialog();
+            client.setEditCrewDialog();
         }
     }
 
     @Override
     public void valueChanged(ListSelectionEvent e)
     {
+        editButton.setEnabled(true);
+        setInfoCrew();
 
     }
 }
