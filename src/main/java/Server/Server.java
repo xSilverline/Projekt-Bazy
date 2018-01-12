@@ -215,4 +215,48 @@ public class Server {
     public ResultSet showProjects(){
         return dbConnector.getProjects();
     }
+
+    public ResultSet showEmployees(){
+        return dbConnector.getEmployees();
+    }
+
+    public ResultSet showStock(){
+        return dbConnector.getStock();
+    }
+
+    public ResultSet showRequired(){
+        return dbConnector.getRequired();
+    }
+
+    public ResultSet showOrders(){
+        return dbConnector.getOrders();
+    }
+
+    public int setProjectStatus(String id, String status){
+        if(dbConnector.setProjectStatus(id, status) == 1){
+            System.out.println("Server.setProjectStatus: Project status set.");
+            return 1;
+        }
+        System.out.println("Server.setProjectStatus: Could not set project status");
+        return 0;
+    }
+
+    public int setEmployeeData(String id, String pensja, String stanowisko){
+        if(dbConnector.setEmployeeData(id, pensja, stanowisko) == 1){
+            System.out.println("Server.setEmployeeData: Employee data set.");
+            return 1;
+        }
+        System.out.println("Server.setEmployeeData: Could not set employee data.");
+        return 0;
+    }
+
+    public int setOrderStatus(String id, String status){
+        if(dbConnector.setOrderStatus(id, status) == 1){
+            System.out.println("Server.setOrderStatus: Status set.");
+            return 1;
+        }
+        System.out.println("Server.setOrderStatus: Could not set order status.");
+        return 0;
+    }
+
 }

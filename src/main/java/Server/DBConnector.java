@@ -399,7 +399,110 @@ public class DBConnector {
         //^^^Because prevents from operations on ResultSet
     }
 
+    protected ResultSet getStock(){
+        Statement s = null;
+        String query = "SELECT * FROM magazyn;";
+        try{
+            s = connection.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            System.out.println("DBConnector.getStock: ResultSet got.");
+            return rs;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.getStock: Could not receive ResultSet");
+            e.printStackTrace();
+            return null;
+        }
+    }
 
+    protected ResultSet getEmployees(){
+        Statement s = null;
+        String query = "SELECT * FROM kadra;";
+        try{
+            s = connection.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            System.out.println("DBConnector.getEmployees: ResultSet got.");
+            return rs;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.getEmployees: Could not receive ResultSet");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    protected ResultSet getRequired(){
+        Statement s = null;
+        String query = "SELECT * FROM magazyn;";
+        try{
+            s = connection.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            System.out.println("DBConnector.getRequired: ResultSet got.");
+            return rs;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.getRequired: Could not receive ResultSet");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    protected ResultSet getOrders(){
+        Statement s = null;
+        String query = "SELECT * FROM zamowione;";
+        try{
+            s = connection.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            System.out.println("DBConnector.getOrders: ResultSet got.");
+            return rs;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.getOrders: Could not receive ResultSet");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //==================================================================================================================
+    //
+    //EDITING THINGS
+    //
+    //==================================================================================================================
+
+    protected int setProjectStatus(String id, String status){
+        String query = "CALL setProjectStatus("+id+", "+status+")";
+        try{
+            doCall(query);
+            System.out.println("DBConnector.setProjectStatus: Status set.");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.setProjectStatus: Exception has occurred. Could not set project status.");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    protected int setEmployeeData(String id, String pensja, String stanowisko){
+        String query = "CALL setEmployeeData("+id+", "+pensja+", "+stanowisko+")";
+        try{
+            doCall(query);
+            System.out.println("DBConnector.setEmployeeData: Data set.");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.setEmployeeData: Exception has occurred. Could not set employee data.");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    protected int setOrderStatus(String id, String status){
+        String query = "CALL setOrderStatus("+id+", "+status+")";
+        try{
+            doCall(query);
+            System.out.println("DBConnector.setOrderStatus: Status set.");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.setOrderStatus: Exception has occurred. Could not set order status.");
+            e.printStackTrace();
+            return 0;
+        }
+    }
 
 
 }
