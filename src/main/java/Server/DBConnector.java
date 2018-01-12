@@ -112,7 +112,7 @@ public class DBConnector {
      */
     protected int checkIfUserExists(String login, String password) {
         Statement s = null;
-        String query = "SELECT kadra.login, kadra.haslo FROM kadra WHERE kadra.login = '"+login+"' AND kadra.haslo = '"+password+"';";
+        String query = "SELECT kadra.login, kadra.haslo FROM kadra WHERE kadra.login = '"+login+"' AND kadra.haslo = PASSWORD('"+password+"');";
 
         //We are connecting with default account to check if desired user exists. If we are already logged in,
         //we don't use default account, BUT we have to remember that used account has to have permission to view
