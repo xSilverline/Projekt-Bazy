@@ -124,12 +124,12 @@ public class RequestsWindowFrame extends NewWindowFrame
         }
         else if(source == addButton)
         {
-            client.setAddStorageDialog();
+            client.setAddRequestDialog();
 
         }
         else if(source == editButton)
         {
-            client.setEditStorageDialog();
+            client.setEditRequestDialog();
         }
 
     }
