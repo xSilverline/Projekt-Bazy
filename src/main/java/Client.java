@@ -34,37 +34,37 @@ public class Client
 
     void setEditProjectDialog()
     {
-
+        new EditProjectDialog(this);
     }
 
     void setAddRequestDialog()
     {
-
+        new AddRequestDialog(this);
     }
 
     void setEditRequestDialog()
     {
-
+        new EditRequestDialog(this);
     }
 
     void setAddCrewDialog()
     {
-
+        new AddCrewDialog(this);
     }
 
     void setEditCrewDialog()
     {
-
+        new EditCrewDialog(this);
     }
 
     void setAddOrdersDialog()
     {
-
+        new AddOrderDialog(this);
     }
 
     void setEditOrdersDialog()
     {
-
+        new EditOrderDialog(this);
     }
 
     void setMenuWindow()

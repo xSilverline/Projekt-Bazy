@@ -8,6 +8,12 @@ public class RequestsWindowFrame extends NewWindowFrame
     private JButton returnButton;
     private MenuButton addButton;
     private MenuButton editButton;
+    private JLabel projectLabel;
+    private JLabel materialLabel;
+    private JLabel potrzLabel;
+    private JLabel zgromLabel;
+    private JLabel brakLabel;
+    private JLabel valueLabel;
 
     RequestsWindowFrame(Client client)
     {
@@ -20,19 +26,20 @@ public class RequestsWindowFrame extends NewWindowFrame
     {
         JLabel stanLabel = new JLabel("STAN ZAPOTRZEBOWANIA");
         stanLabel.setFont(stanLabel.getFont().deriveFont(40f));
-        stanLabel.setBounds(483,10,400,50);
+        stanLabel.setBounds(383,10,600,50);
         add(stanLabel);
 
         DefaultListModel<String> list = new DefaultListModel<>();
         list.addElement("DUPA");
-        JList storageList = new JList(list);
-        JScrollPane scrollList = new JScrollPane(storageList);
-        scrollList.setBounds(283,100,800,600);
+
+        JList requestList = new JList(list);
+        JScrollPane scrollList = new JScrollPane(requestList);
+        scrollList.setBounds(100,150,300,400);
         add(scrollList);
-        storageList.addListSelectionListener(this);
+        requestList.addListSelectionListener(this);
 
         editButton = new MenuButton("EDYTUJ");
-        editButton.setBounds(0,200,200,50);
+        editButton.setBounds(150,620,200,50);
         add(editButton);
         editButton.addActionListener(this);
         editButton.setEnabled(false);
@@ -43,9 +50,51 @@ public class RequestsWindowFrame extends NewWindowFrame
         returnButton.addActionListener(this);
 
         addButton = new MenuButton("DODAJ");
-        addButton.setBounds(0,100,200,50);
+        addButton.setBounds(150,560,200,50);
         add(addButton);
         addButton.addActionListener(this);
+
+        projectLabel = new JLabel("Projekt:\t");
+        materialLabel = new JLabel("Materiał:\t");
+        potrzLabel = new JLabel("Ilość Potrzebna:\t");
+        zgromLabel = new JLabel("Ilość Zgromadzona:\t");
+        brakLabel = new JLabel("Ilość Brakująca:\t");
+        valueLabel = new JLabel("Wartość:\t");
+
+
+        projectLabel.setBounds(500,150,500,30);
+        materialLabel.setBounds(500,180,500,30);
+        potrzLabel.setBounds(500,210,500,30);
+        zgromLabel.setBounds(500,240,500,30);
+        brakLabel.setBounds(500,270,500,30);
+        valueLabel.setBounds(500,300,500,30);
+
+
+        projectLabel.setFont(projectLabel.getFont().deriveFont(15f));
+        materialLabel.setFont(materialLabel.getFont().deriveFont(15f));
+        potrzLabel.setFont(potrzLabel.getFont().deriveFont(15f));
+        zgromLabel.setFont(zgromLabel.getFont().deriveFont(15f));
+        brakLabel.setFont(brakLabel.getFont().deriveFont(15f));
+        valueLabel.setFont(valueLabel.getFont().deriveFont(15f));
+
+
+        add(projectLabel);
+        add(materialLabel);
+        add(potrzLabel);
+        add(zgromLabel);
+        add(brakLabel);
+        add(valueLabel);
+
+
+    }
+    private void setInfoRequest()
+    {
+        projectLabel.setText("Projekt:\t");
+        materialLabel.setText("Materiał:\t");
+        potrzLabel.setText("Ilość Potrzebna:\t");
+        zgromLabel.setText("Ilość Zgromadzona:\t");
+        brakLabel.setText("Ilość Brakująca:\t");
+        valueLabel.setText("Wartość:\t");
 
     }
 
@@ -64,12 +113,12 @@ public class RequestsWindowFrame extends NewWindowFrame
         }
         else if(source == addButton)
         {
-            client.setAddStorageDialog();
+            client.setAddRequestDialog();
 
         }
         else if(source == editButton)
         {
-            client.setEditStorageDialog();
+            client.setEditRequestDialog();
         }
 
     }
@@ -77,6 +126,8 @@ public class RequestsWindowFrame extends NewWindowFrame
     @Override
     public void valueChanged(ListSelectionEvent e)
     {
+        editButton.setEnabled(true);
+        setInfoRequest();
 
     }
 }

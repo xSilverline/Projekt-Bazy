@@ -8,6 +8,12 @@ public class OrdersWindowFrame extends  NewWindowFrame
     private JButton returnButton;
     private MenuButton addButton;
     private MenuButton editButton;
+    private JLabel materialLabel;
+    private JLabel numberLabel;
+    private JLabel valueLabel;
+    private JLabel dateLabel;
+    private JLabel statusLabel;
+
 
     OrdersWindowFrame(Client client)
     {
@@ -19,19 +25,21 @@ public class OrdersWindowFrame extends  NewWindowFrame
     {
         JLabel stanLabel = new JLabel("STAN ZAMÓWIEŃ");
         stanLabel.setFont(stanLabel.getFont().deriveFont(40f));
-        stanLabel.setBounds(483,10,400,50);
+        stanLabel.setBounds(383,10,600,50);
         add(stanLabel);
+        stanLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         DefaultListModel<String> list = new DefaultListModel<>();
         list.addElement("DUPA");
-        JList storageList = new JList(list);
-        JScrollPane scrollList = new JScrollPane(storageList);
-        scrollList.setBounds(283,100,800,600);
+
+        JList requestList = new JList(list);
+        JScrollPane scrollList = new JScrollPane(requestList);
+        scrollList.setBounds(100,150,300,400);
         add(scrollList);
-        storageList.addListSelectionListener(this);
+        requestList.addListSelectionListener(this);
 
         editButton = new MenuButton("EDYTUJ");
-        editButton.setBounds(0,200,200,50);
+        editButton.setBounds(150,620,200,50);
         add(editButton);
         editButton.addActionListener(this);
         editButton.setEnabled(false);
@@ -42,9 +50,49 @@ public class OrdersWindowFrame extends  NewWindowFrame
         returnButton.addActionListener(this);
 
         addButton = new MenuButton("DODAJ");
-        addButton.setBounds(0,100,200,50);
+        addButton.setBounds(150,560,200,50);
         add(addButton);
         addButton.addActionListener(this);
+
+        materialLabel = new JLabel("Materiał:\t");
+        numberLabel = new JLabel("Ilość Zamówiona:\t");
+        valueLabel = new JLabel("Wartość:\t");
+        dateLabel = new JLabel("Data Zamówienia:\t");
+        statusLabel = new JLabel("Status:\t");
+
+
+        materialLabel.setBounds(500,150,500,30);
+        numberLabel.setBounds(500,180,500,30);
+        valueLabel.setBounds(500,210,500,30);
+        dateLabel.setBounds(500,240,500,30);
+        statusLabel.setBounds(500,270,500,30);
+
+
+
+        materialLabel.setFont(materialLabel.getFont().deriveFont(15f));
+        numberLabel.setFont(numberLabel.getFont().deriveFont(15f));
+        valueLabel.setFont(valueLabel.getFont().deriveFont(15f));
+        dateLabel.setFont(dateLabel.getFont().deriveFont(15f));
+        statusLabel.setFont(statusLabel.getFont().deriveFont(15f));
+
+
+
+        add(materialLabel);
+        add(numberLabel);
+        add(valueLabel);
+        add(dateLabel);
+        add(statusLabel);
+
+
+    }
+
+    private void setInfoOrder()
+    {
+        materialLabel.setText("Materiał:\t");
+        numberLabel.setText("Ilość Zamówiona:\t");
+        valueLabel.setText("Wartość:\t");
+        dateLabel.setText("Data Zamówienia:\t");
+        statusLabel.setText("Status:\t");
 
     }
 
@@ -63,12 +111,12 @@ public class OrdersWindowFrame extends  NewWindowFrame
         }
         else if(source == addButton)
         {
-            client.setAddStorageDialog();
+            client.setAddOrdersDialog();
 
         }
         else if(source == editButton)
         {
-            client.setEditStorageDialog();
+            client.setEditOrdersDialog();
         }
 
     }
@@ -76,6 +124,9 @@ public class OrdersWindowFrame extends  NewWindowFrame
     @Override
     public void valueChanged(ListSelectionEvent e)
     {
+
+        editButton.setEnabled(true);
+        setInfoOrder();
 
     }
 }

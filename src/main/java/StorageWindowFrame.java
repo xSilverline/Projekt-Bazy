@@ -9,6 +9,9 @@ public class StorageWindowFrame extends NewWindowFrame
     private JButton returnButton;
     private MenuButton addButton;
     private MenuButton editButton;
+    private JLabel materialLabel;
+    private JLabel numberLabel;
+    private JLabel valueLabel;
 
     StorageWindowFrame(Client client)
     {
@@ -28,12 +31,12 @@ public class StorageWindowFrame extends NewWindowFrame
         list.addElement("DUPA");
         JList storageList = new JList(list);
         JScrollPane scrollList = new JScrollPane(storageList);
-        scrollList.setBounds(283,100,800,600);
+        scrollList.setBounds(100,150,300,400);
         add(scrollList);
         storageList.addListSelectionListener(this);
 
         editButton = new MenuButton("EDYTUJ");
-        editButton.setBounds(0,200,200,50);
+        editButton.setBounds(150,620,200,50);
         add(editButton);
         editButton.addActionListener(this);
         editButton.setEnabled(false);
@@ -44,9 +47,25 @@ public class StorageWindowFrame extends NewWindowFrame
         returnButton.addActionListener(this);
 
         addButton = new MenuButton("DODAJ");
-        addButton.setBounds(0,100,200,50);
+        addButton.setBounds(150,560,200,50);
         add(addButton);
         addButton.addActionListener(this);
+
+        materialLabel = new JLabel("Materiał:\t");
+        numberLabel = new JLabel("Ilość:\t");
+        valueLabel = new JLabel("Wartość Średnia:\t");
+
+        materialLabel.setBounds(500,150,500,30);
+        numberLabel.setBounds(500,180,500,30);
+        valueLabel.setBounds(500,210,500,30);
+
+        materialLabel.setFont(materialLabel.getFont().deriveFont(15f));
+        numberLabel.setFont(numberLabel.getFont().deriveFont(15f));
+        valueLabel.setFont(valueLabel.getFont().deriveFont(15f));
+
+        add(materialLabel);
+        add(numberLabel);
+        add(valueLabel);
 
     }
 
@@ -54,6 +73,13 @@ public class StorageWindowFrame extends NewWindowFrame
     void closeWindow()
     {
 
+    }
+
+    private void setInfoStorage()
+    {
+        materialLabel.setText("Materiał:\t");
+        numberLabel.setText("Ilość:\t");
+        valueLabel.setText("Wartość Średnia:\t");
     }
 
     @Override
@@ -81,5 +107,6 @@ public class StorageWindowFrame extends NewWindowFrame
     public void valueChanged(ListSelectionEvent e)
     {
         editButton.setEnabled(true);
+        setInfoStorage();
     }
 }
