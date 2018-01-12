@@ -14,6 +14,7 @@ public class RequestsWindowFrame extends NewWindowFrame
     private JLabel zgromLabel;
     private JLabel brakLabel;
     private JLabel valueLabel;
+    private MenuButton deleteButton;
 
     RequestsWindowFrame(Client client)
     {
@@ -43,6 +44,12 @@ public class RequestsWindowFrame extends NewWindowFrame
         add(editButton);
         editButton.addActionListener(this);
         editButton.setEnabled(false);
+
+        deleteButton = new MenuButton("USUŃ");
+        deleteButton.setBounds(150,90,200,50);
+        add(deleteButton);
+        deleteButton.addActionListener(this);
+        deleteButton.setEnabled(false);
 
         returnButton = new MenuButton("POWRÓT");
         returnButton.setBounds(1156,708,200,50);
@@ -120,6 +127,10 @@ public class RequestsWindowFrame extends NewWindowFrame
         {
             client.setEditRequestDialog();
         }
+        else if(source == deleteButton)
+        {
+
+        }
 
     }
 
@@ -128,6 +139,7 @@ public class RequestsWindowFrame extends NewWindowFrame
     {
         editButton.setEnabled(true);
         setInfoRequest();
+        deleteButton.setEnabled(true);
 
     }
 }

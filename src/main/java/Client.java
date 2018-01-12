@@ -1,9 +1,13 @@
+import Server.Server;
+
 public class Client
 {
     int version;
+    Server server;
 
-    private Client() throws Exception
+    private Client()
     {
+        server = new Server();
         setLoginWindow();
     }
 

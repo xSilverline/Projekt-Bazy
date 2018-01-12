@@ -8,6 +8,7 @@ public class OrdersWindowFrame extends  NewWindowFrame
     private JButton returnButton;
     private MenuButton addButton;
     private MenuButton editButton;
+    private MenuButton deleteButton;
     private JLabel materialLabel;
     private JLabel numberLabel;
     private JLabel valueLabel;
@@ -44,6 +45,12 @@ public class OrdersWindowFrame extends  NewWindowFrame
         editButton.addActionListener(this);
         editButton.setEnabled(false);
 
+        deleteButton = new MenuButton("USUŃ");
+        deleteButton.setBounds(150,90,200,50);
+        add(deleteButton);
+        deleteButton.addActionListener(this);
+        deleteButton.setEnabled(false);
+
         returnButton = new MenuButton("POWRÓT");
         returnButton.setBounds(1156,708,200,50);
         add(returnButton);
@@ -60,22 +67,17 @@ public class OrdersWindowFrame extends  NewWindowFrame
         dateLabel = new JLabel("Data Zamówienia:\t");
         statusLabel = new JLabel("Status:\t");
 
-
         materialLabel.setBounds(500,150,500,30);
         numberLabel.setBounds(500,180,500,30);
         valueLabel.setBounds(500,210,500,30);
         dateLabel.setBounds(500,240,500,30);
         statusLabel.setBounds(500,270,500,30);
 
-
-
         materialLabel.setFont(materialLabel.getFont().deriveFont(15f));
         numberLabel.setFont(numberLabel.getFont().deriveFont(15f));
         valueLabel.setFont(valueLabel.getFont().deriveFont(15f));
         dateLabel.setFont(dateLabel.getFont().deriveFont(15f));
         statusLabel.setFont(statusLabel.getFont().deriveFont(15f));
-
-
 
         add(materialLabel);
         add(numberLabel);
@@ -118,6 +120,10 @@ public class OrdersWindowFrame extends  NewWindowFrame
         {
             client.setEditOrdersDialog();
         }
+        else if(source == deleteButton)
+        {
+
+        }
 
     }
 
@@ -127,6 +133,7 @@ public class OrdersWindowFrame extends  NewWindowFrame
 
         editButton.setEnabled(true);
         setInfoOrder();
+        deleteButton.setEnabled(true);
 
     }
 }

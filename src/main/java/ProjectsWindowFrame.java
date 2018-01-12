@@ -8,6 +8,7 @@ public class ProjectsWindowFrame extends NewWindowFrame
     private JButton returnButton;
     private MenuButton addButton;
     private MenuButton editButton;
+    private MenuButton deleteButton;
     private JList projectList;
     private JLabel idLabel;
     private JLabel nameLabel;
@@ -43,6 +44,12 @@ public class ProjectsWindowFrame extends NewWindowFrame
         scrollList.setBounds(100,150,300,400);
         add(scrollList);
         projectList.addListSelectionListener(this);
+
+        deleteButton = new MenuButton("USUŃ");
+        deleteButton.setBounds(150,90,200,50);
+        add(deleteButton);
+        deleteButton.addActionListener(this);
+        deleteButton.setEnabled(false);
 
         editButton = new MenuButton("EDYTUJ");
         editButton.setBounds(150,620,200,50);
@@ -149,6 +156,10 @@ public class ProjectsWindowFrame extends NewWindowFrame
         {
             client.setEditProjectDialog();
         }
+        else if(source == deleteButton)
+        {
+
+        }
 
     }
 
@@ -158,6 +169,7 @@ public class ProjectsWindowFrame extends NewWindowFrame
         editButton.setEnabled(true);
         projectList.getSelectedIndex();
         setInfoProject();
+        deleteButton.setEnabled(true);
 
     }
 }

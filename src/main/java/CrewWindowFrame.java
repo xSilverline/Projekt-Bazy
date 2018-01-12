@@ -8,6 +8,7 @@ public class CrewWindowFrame extends NewWindowFrame
     private JButton returnButton;
     private MenuButton addButton;
     private MenuButton editButton;
+    private MenuButton deleteButton;
 
     private JLabel idLabel;
     private JLabel nameLabel;
@@ -46,6 +47,12 @@ public class CrewWindowFrame extends NewWindowFrame
         editButton.addActionListener(this);
         editButton.setEnabled(false);
 
+        deleteButton = new MenuButton("USUŃ");
+        deleteButton.setBounds(150,90,200,50);
+        add(deleteButton);
+        deleteButton.addActionListener(this);
+        deleteButton.setEnabled(false);
+
         returnButton = new MenuButton("POWRÓT");
         returnButton.setBounds(1156,708,200,50);
         add(returnButton);
@@ -62,14 +69,11 @@ public class CrewWindowFrame extends NewWindowFrame
         posLabel = new JLabel("Stanowisko:\t");
         payLabel = new JLabel("Pensja:\t");
 
-
         idLabel.setBounds(500,150,500,30);
         nameLabel.setBounds(500,180,500,30);
         surLabel.setBounds(500,210,500,30);
         posLabel.setBounds(500,240,500,30);
         payLabel.setBounds(500,270,500,30);
-
-
 
         idLabel.setFont(idLabel.getFont().deriveFont(15f));
         nameLabel.setFont(nameLabel.getFont().deriveFont(15f));
@@ -122,6 +126,10 @@ public class CrewWindowFrame extends NewWindowFrame
         {
             client.setEditCrewDialog();
         }
+        else if(source == deleteButton)
+        {
+
+        }
     }
 
     @Override
@@ -129,6 +137,7 @@ public class CrewWindowFrame extends NewWindowFrame
     {
         editButton.setEnabled(true);
         setInfoCrew();
+        deleteButton.setEnabled(true);
 
     }
 }
