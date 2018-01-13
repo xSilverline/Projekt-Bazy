@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 
 public class AddRequestDialog extends NewWindowDialog
 {
@@ -18,9 +19,6 @@ public class AddRequestDialog extends NewWindowDialog
     private JTextField zgromField;
     private JTextField valueField;
     private JTextField projectField;
-
-    private String currentProject;
-
 
     AddRequestDialog(Client client)
     {
@@ -111,8 +109,27 @@ public class AddRequestDialog extends NewWindowDialog
         }
         else if(source == addButton)
         {
-            dispose();
-            //TODO: add to storage
+            if(projectField.getText().isEmpty() || materialField.getText().isEmpty() || potrzField.getText().isEmpty() || zgromField.getText().isEmpty()|| valueField.getText().isEmpty())
+            {
+                JOptionPane.showMessageDialog(null,"Błąd danych - uzupełnij");
+            }
+            else
+            {
+                int x = Integer.parseInt(potrzField.getText()) - Integer.parseInt(zgromField.getText());
+                client.server.addRequired(projectField.getText(),materialField.getText(),potrzField.getText(),zgromField.getText(),Integer.toString(x),valueField.getText());
+                dispose();
+                client.requestsWindowFrame.dispose();
+                try
+                {
+                    client.setRequestsWindow();
+                } catch (SQLException e1)
+                {
+                    e1.printStackTrace();
+                }
+
+
+            }
+
         }
 
     }

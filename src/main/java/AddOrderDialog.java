@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 
 public class AddOrderDialog extends NewWindowDialog
 {
@@ -107,8 +108,25 @@ public class AddOrderDialog extends NewWindowDialog
         }
         else if(source == addButton)
         {
-            dispose();
-            //TODO: add to storage
+            if(nameField.getText().isEmpty() || amountField.getText().isEmpty() || dateField.getText().isEmpty() || valueField.getText().isEmpty()|| statusField.getText().isEmpty() )
+            {
+                JOptionPane.showMessageDialog(null,"Błąd danych - uzupełnij");
+            }
+            else
+            {
+                client.server.addOrder(nameField.getText(),amountField.getText(),dateField.getText(),valueField.getText());
+                dispose();
+                try
+                {
+                    client.ordersWindowFrame.dispose();
+                    client.setOrdersWindow();
+                } catch (SQLException e1)
+                {
+                    e1.printStackTrace();
+                }
+
+
+            }
         }
 
     }

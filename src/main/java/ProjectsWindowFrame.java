@@ -193,7 +193,7 @@ public class ProjectsWindowFrame extends NewWindowFrame
             try
             {
                 projectResult.absolute(i);
-                client.server.removeUser(projectResult.getString("Login"));
+                client.server.removeProject(projectResult.getString("ID"));
                 client.projectsWindowFrame.dispose();
                 client.setProjectsWindow();
 

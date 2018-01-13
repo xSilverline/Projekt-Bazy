@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class OrdersWindowFrame extends  NewWindowFrame
 {
@@ -15,14 +17,22 @@ public class OrdersWindowFrame extends  NewWindowFrame
     private JLabel valueLabel;
     private JLabel dateLabel;
     private JLabel statusLabel;
+    private JList ordersList;
+    private JLabel idLabel;
+    private DefaultListModel<String> list = new DefaultListModel<>();
+
+    private ResultSet ordersResult;
 
 
-    OrdersWindowFrame(Client client,int version)
+
+    OrdersWindowFrame(Client client,int version,ResultSet ordersResult) throws SQLException
     {
+        this.ordersResult = ordersResult;
         this.client=client;
         this.version = version;
         buildFrame();
         makeGui();
+        getList();
     }
     void makeGui()
     {
@@ -32,14 +42,11 @@ public class OrdersWindowFrame extends  NewWindowFrame
         add(stanLabel);
         stanLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        DefaultListModel<String> list = new DefaultListModel<>();
-        list.addElement("DUPA");
-
-        JList requestList = new JList(list);
-        JScrollPane scrollList = new JScrollPane(requestList);
+        ordersList = new JList(list);
+        JScrollPane scrollList = new JScrollPane(ordersList);
         scrollList.setBounds(100,150,300,400);
         add(scrollList);
-        requestList.addListSelectionListener(this);
+        ordersList.addListSelectionListener(this);
 
         editButton = new MenuButton("EDYTUJ");
         editButton.setBounds(150,620,200,50);
@@ -63,18 +70,21 @@ public class OrdersWindowFrame extends  NewWindowFrame
 
         addButton.addActionListener(this);
 
+        idLabel = new JLabel("ID:\t");
         materialLabel = new JLabel("Materiał:\t");
         numberLabel = new JLabel("Ilość Zamówiona:\t");
         valueLabel = new JLabel("Wartość:\t");
         dateLabel = new JLabel("Data Zamówienia:\t");
         statusLabel = new JLabel("Status:\t");
 
-        materialLabel.setBounds(500,150,500,30);
-        numberLabel.setBounds(500,180,500,30);
-        valueLabel.setBounds(500,210,500,30);
-        dateLabel.setBounds(500,240,500,30);
-        statusLabel.setBounds(500,270,500,30);
+        idLabel.setBounds(500,150,500,30);
+        materialLabel.setBounds(500,180,500,30);
+        numberLabel.setBounds(500,210,500,30);
+        valueLabel.setBounds(500,240,500,30);
+        dateLabel.setBounds(500,270,500,30);
+        statusLabel.setBounds(500,300,500,30);
 
+        idLabel.setFont(idLabel.getFont().deriveFont(15f));
         materialLabel.setFont(materialLabel.getFont().deriveFont(15f));
         numberLabel.setFont(numberLabel.getFont().deriveFont(15f));
         valueLabel.setFont(valueLabel.getFont().deriveFont(15f));
@@ -87,7 +97,7 @@ public class OrdersWindowFrame extends  NewWindowFrame
             add(deleteButton);
             add(addButton);
         }
-
+        add(idLabel);
         add(materialLabel);
         add(numberLabel);
         add(valueLabel);
@@ -96,16 +106,26 @@ public class OrdersWindowFrame extends  NewWindowFrame
 
 
     }
-
-    private void setInfoOrder()
+    void getList() throws SQLException
     {
-        materialLabel.setText("Materiał:\t");
-        numberLabel.setText("Ilość Zamówiona:\t");
-        valueLabel.setText("Wartość:\t");
-        dateLabel.setText("Data Zamówienia:\t");
-        statusLabel.setText("Status:\t");
+        list.clear();
+        while (ordersResult.next())
+        {
+            list.addElement(ordersResult.getString("ID")+"  "+ordersResult.getString("Material")+"  "+ordersResult.getString("Status"));
+        }
+    }
+
+    private void setInfoOrder() throws SQLException
+    {
+        ordersResult.absolute(ordersList.getSelectedIndex()+1);
+        materialLabel.setText("Materiał:\t"+ordersResult.getString("Material"));
+        numberLabel.setText("Ilość Zamówiona:\t"+ordersResult.getString("Ilosc_zamowiona"));
+        valueLabel.setText("Wartość:\t"+ordersResult.getString("Wartosc"));
+        dateLabel.setText("Data Zamówienia:\t"+ordersResult.getString("Data_zamowienia"));
+        statusLabel.setText("Status:\t"+ordersResult.getString("Status"));
 
     }
+
 
     void closeWindow()
     {
@@ -131,6 +151,18 @@ public class OrdersWindowFrame extends  NewWindowFrame
         }
         else if(source == deleteButton)
         {
+            int i = ordersList.getSelectedIndex()+1;
+            try
+            {
+                ordersResult.absolute(i);
+                //client.server.(ordersList.getString("Login"));
+                client.ordersWindowFrame.dispose();
+                client.setOrdersWindow();
+
+            } catch (SQLException e1)
+            {
+                e1.printStackTrace();
+            }
 
         }
 
@@ -141,7 +173,13 @@ public class OrdersWindowFrame extends  NewWindowFrame
     {
 
         editButton.setEnabled(true);
-        setInfoOrder();
+        try
+        {
+            setInfoOrder();
+        } catch (SQLException e1)
+        {
+            e1.printStackTrace();
+        }
         deleteButton.setEnabled(true);
 
     }

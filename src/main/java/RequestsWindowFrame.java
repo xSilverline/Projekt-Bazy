@@ -23,13 +23,14 @@ public class RequestsWindowFrame extends NewWindowFrame
 
     private ResultSet requestResult;
 
-    RequestsWindowFrame(Client client,int version,ResultSet requestResult)
+    RequestsWindowFrame(Client client,int version,ResultSet requestResult) throws SQLException
     {
         this.client = client;
         this.version = version;
         this.requestResult = requestResult;
         buildFrame();
         makeGui();
+        getList();
     }
 
     void makeGui()
@@ -118,6 +119,15 @@ public class RequestsWindowFrame extends NewWindowFrame
         valueLabel.setText("Wartość:\t"+requestResult.getString("Wartosc"));
 
     }
+    void getList() throws SQLException
+    {
+        list.clear();
+        while (requestResult.next())
+        {
+            list.addElement(requestResult.getString("Projekt"));
+
+        }
+    }
 
     void closeWindow()
     {
@@ -147,7 +157,7 @@ public class RequestsWindowFrame extends NewWindowFrame
             try
             {
                 requestResult.absolute(i);
-                client.server.removeUser(requestResult.getString("Login"));
+                //client.server.removeReq(requestResult.getString("Login"));
                 client.requestsWindowFrame.dispose();
                 client.setRequestsWindow();
 

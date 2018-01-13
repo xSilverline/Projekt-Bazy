@@ -178,7 +178,13 @@ public class AddProjectDialog extends NewWindowDialog
 
                 dispose();
                 client.projectsWindowFrame.dispose();
-                client.setProjectsWindow();
+                try
+                {
+                    client.setProjectsWindow();
+                } catch (SQLException e1)
+                {
+                    e1.printStackTrace();
+                }
             }
 
         }

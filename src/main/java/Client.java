@@ -101,14 +101,14 @@ public class Client
         crewWindowFrame=new CrewWindowFrame(this,version,server.showEmployees());
     }
 
-    void setRequestsWindow()
+    void setRequestsWindow() throws SQLException
     {
-        requestsWindowFrame=new RequestsWindowFrame(this,version);
+        requestsWindowFrame=new RequestsWindowFrame(this,version,server.showRequired());
     }
 
-    void setOrdersWindow()
+    void setOrdersWindow() throws SQLException
     {
-        ordersWindowFrame=new OrdersWindowFrame(this,version);
+        ordersWindowFrame=new OrdersWindowFrame(this,version,server.showOrders());
     }
 
     void setAdminWindow()

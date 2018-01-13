@@ -17,6 +17,7 @@ public class StorageWindowFrame extends NewWindowFrame
     private JLabel numberLabel;
     private JLabel valueLabel;
     private DefaultListModel<String> list = new DefaultListModel<>();
+    private JList storageList;
 
     StorageWindowFrame(Client client, int version, ResultSet storageResult) throws SQLException
     {
@@ -38,7 +39,7 @@ public class StorageWindowFrame extends NewWindowFrame
 
         list.clear();
 
-        JList storageList = new JList(list);
+        storageList = new JList(list);
         JScrollPane scrollList = new JScrollPane(storageList);
         scrollList.setBounds(100,150,300,400);
         add(scrollList);
@@ -108,11 +109,12 @@ public class StorageWindowFrame extends NewWindowFrame
 
     }
 
-    private void setInfoStorage()
+    private void setInfoStorage() throws SQLException
     {
-        materialLabel.setText("Materiał:\t");
-        numberLabel.setText("Ilość:\t");
-        valueLabel.setText("Wartość Średnia:\t");
+        storageResult.absolute(storageList.getSelectedIndex()+1);
+        materialLabel.setText("Materiał:\t"+storageResult.getString("Material"));
+        numberLabel.setText("Ilość:\t"+storageResult.getString("Ilosc"));
+        valueLabel.setText("Wartość sztuki:\t"+storageResult.getString("Wartos_sztuki"));
     }
 
     @Override
@@ -135,6 +137,18 @@ public class StorageWindowFrame extends NewWindowFrame
         }
         else if(source == deleteButton)
         {
+            int i = storageList.getSelectedIndex()+1;
+            try
+            {
+                storageResult.absolute(i);
+                client.server.removeStock(storageResult.getString("Material"));
+                client.storageWindowFrame.dispose();
+                client.setStorageWindow();
+
+            } catch (SQLException e1)
+            {
+                e1.printStackTrace();
+            }
 
         }
 
@@ -144,7 +158,13 @@ public class StorageWindowFrame extends NewWindowFrame
     public void valueChanged(ListSelectionEvent e)
     {
         editButton.setEnabled(true);
-        setInfoStorage();
+        try
+        {
+            setInfoStorage();
+        } catch (SQLException e1)
+        {
+            e1.printStackTrace();
+        }
         deleteButton.setEnabled(true);
     }
 }

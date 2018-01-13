@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 
 public class AddStorageDialog extends NewWindowDialog
 {
@@ -41,11 +42,8 @@ public class AddStorageDialog extends NewWindowDialog
         JLabel numberLabel = new JLabel("ILOSC:");
         JLabel valueLabel = new JLabel("WARTOSC SZTUKI:");
 
-
         nameField = new JTextField("", 30);
-
         numberField = new JTextField("", 5);
-
         valueField = new JTextField("", 10);
 
         nameLabel.setBounds(150,200,140,50);
@@ -95,15 +93,19 @@ public class AddStorageDialog extends NewWindowDialog
             }
             else
             {
-                String name = nameField.getText();
-                int number = Integer.parseInt(numberField.getText());
-                double value = Double.parseDouble(valueField.getText());
-
-
+               client.server.addStock(nameField.getText(),numberField.getText(),valueField.getText());
                 dispose();
+                try
+                {
+                    client.storageWindowFrame.dispose();
+                    client.setStorageWindow();
+                } catch (SQLException e1)
+                {
+                    e1.printStackTrace();
+                }
             }
 
-            //TODO: add to storage
+
         }
 
     }

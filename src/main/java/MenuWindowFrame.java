@@ -105,7 +105,13 @@ public class MenuWindowFrame extends NewWindowFrame
         }
         else if(source == projectsButton)
         {
-            client.setProjectsWindow();
+            try
+            {
+                client.setProjectsWindow();
+            } catch (SQLException e1)
+            {
+                e1.printStackTrace();
+            }
             dispose();
 
         }
@@ -123,13 +129,25 @@ public class MenuWindowFrame extends NewWindowFrame
         }
         else if(source == neededButton)
         {
-            client.setRequestsWindow();
+            try
+            {
+                client.setRequestsWindow();
+            } catch (SQLException e1)
+            {
+                e1.printStackTrace();
+            }
             dispose();
 
         }
         else if(source == orderedButton)
         {
-            client.setOrdersWindow();
+            try
+            {
+                client.setOrdersWindow();
+            } catch (SQLException e1)
+            {
+                e1.printStackTrace();
+            }
             dispose();
 
         }
