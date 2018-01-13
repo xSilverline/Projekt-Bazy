@@ -367,6 +367,45 @@ public class DBConnector {
         }
     }
 
+    protected int addStock(String material, String ilosc, String wartosc_sztuki){
+        String query = "CALL addStock('"+material+"', "+ilosc+", "+wartosc_sztuki+");";
+        try{
+            doCall(query);
+            System.out.println("DBConnector.addStock: Stock entry added.");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.addStock: Exception has occurred. Could not add stock entry.");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    protected int removeStock(String material){
+        String query = "CALL removeStock('"+material+"');";
+        try{
+            doCall(query);
+            System.out.println("DBConnector.removeStock: Stock entry removed.");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.removeStock: Exception has occurred. Could not remove stock entry.");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    protected int setStock(String material, String ilosc){
+        String query = "CALL setStock('"+material+"', "+ilosc+");";
+        try{
+            doCall(query);
+            System.out.println("DBConnector.setStock: Stock entry set.");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.setStock: Exception has occurred. Could not set stock entry.");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     //==================================================================================================================
     //
     //SHOWING THINGS
@@ -521,6 +560,19 @@ public class DBConnector {
             return 1;
         } catch (SQLException e) {
             System.out.println("DBConnector.setOrderStatus: Exception has occurred. Could not set order status.");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    protected int setRequiredAmount(String id, String amount){
+        String query = "CALL setRequiredAmount("+id+", "+amount+");";
+        try{
+            doCall(query);
+            System.out.println("DBConnector.setRequiredAmount: Amount set.");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.setRequiredAmount: Exception has occurred. Could not set order status.");
             e.printStackTrace();
             return 0;
         }
