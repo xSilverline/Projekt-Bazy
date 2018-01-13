@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.sql.ResultSet;
 
 public class EditStorageDialog extends NewWindowDialog
 {
@@ -8,9 +9,15 @@ public class EditStorageDialog extends NewWindowDialog
     private MenuButton saveButton;
     private String currentMaterial;
 
-    EditStorageDialog(Client client)
+    private String ilosc;
+    private JTextField numberField;
+    private JTextField valueField;
+
+    EditStorageDialog(Client client,String currentMaterial, String ilosc)
     {
         this.client=client;
+        this.currentMaterial = currentMaterial;
+        this.ilosc = ilosc;
         buildDialog();
         makeGui();
         setModalityType(ModalityType.APPLICATION_MODAL);
@@ -32,8 +39,8 @@ public class EditStorageDialog extends NewWindowDialog
         JLabel nameLabel = new JLabel("MATERIAŁ: "+currentMaterial);
         JLabel numberLabel = new JLabel("ILOŚĆ: ");
         JLabel valueLabel = new JLabel("WARTOŚĆ SZTUKI: ");
-        JTextField numberField = new JTextField("",5);
-        JTextField valueField = new JTextField("",10);
+        numberField = new JTextField("",5);
+        valueField = new JTextField("",10);
 
         nameLabel.setBounds(100,10,600,50);
         nameLabel.setFont(nameLabel.getFont().deriveFont(30f));
@@ -52,11 +59,11 @@ public class EditStorageDialog extends NewWindowDialog
         valueLabel.setFont(valueLabel.getFont().deriveFont(20f));
         valueLabel.setBounds(100,300,200,50);
         valueLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        add(valueLabel);
+        //add(valueLabel);
 
         valueField.setBounds(310,300,200,50);
         valueField.setFont(valueField.getFont().deriveFont(20f));
-        add(valueField);
+        //add(valueField);
 
     }
     void setCurrentMaterial(String currentMaterial)
@@ -73,7 +80,18 @@ public class EditStorageDialog extends NewWindowDialog
             dispose();
         } else if(source == saveButton)
         {
-            dispose();
+
+                if(numberField.getText().isEmpty())
+                {
+                    JOptionPane.showMessageDialog(null,"Nie wprowadzono zmian!");
+                }
+                else
+                {
+                    client.server.setStock(currentMaterial,numberField.getText());
+                    dispose();
+                }
+
+
         }
 
     }

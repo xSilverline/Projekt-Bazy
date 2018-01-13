@@ -18,6 +18,7 @@ public abstract class NewWindowDialog extends JDialog implements ActionListener
         //getContentPane().setBackground(new Color(74, 73, 75));
 
 
+
     }
     public abstract void actionPerformed(ActionEvent e);
 }

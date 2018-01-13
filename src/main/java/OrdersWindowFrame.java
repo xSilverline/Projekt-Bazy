@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -77,6 +78,14 @@ public class OrdersWindowFrame extends  NewWindowFrame
         dateLabel = new JLabel("Data Zamówienia:\t");
         statusLabel = new JLabel("Status:\t");
 
+        idLabel.setForeground(Color.gray);
+        materialLabel.setForeground(Color.gray);
+        numberLabel.setForeground(Color.gray);
+        valueLabel.setForeground(Color.gray);
+        dateLabel.setForeground(Color.gray);
+        statusLabel.setForeground(Color.gray);
+
+
         idLabel.setBounds(500,150,500,30);
         materialLabel.setBounds(500,180,500,30);
         numberLabel.setBounds(500,210,500,30);
@@ -118,11 +127,11 @@ public class OrdersWindowFrame extends  NewWindowFrame
     private void setInfoOrder() throws SQLException
     {
         ordersResult.absolute(ordersList.getSelectedIndex()+1);
-        materialLabel.setText("Materiał:\t"+ordersResult.getString("Material"));
-        numberLabel.setText("Ilość Zamówiona:\t"+ordersResult.getString("Ilosc_zamowiona"));
-        valueLabel.setText("Wartość:\t"+ordersResult.getString("Wartosc"));
-        dateLabel.setText("Data Zamówienia:\t"+ordersResult.getString("Data_zamowienia"));
-        statusLabel.setText("Status:\t"+ordersResult.getString("Status"));
+        materialLabel.setText("Materiał:\t  "+ordersResult.getString("Material"));
+        numberLabel.setText("Ilość Zamówiona:\t     "+ordersResult.getString("Ilosc_zamowiona"));
+        valueLabel.setText("Wartość:\t  "+ordersResult.getString("Wartosc"));
+        dateLabel.setText("Data Zamówienia:\t   "+ordersResult.getString("Data_zamowienia"));
+        statusLabel.setText("Status:\t  "+ordersResult.getString("Status"));
 
     }
 
@@ -147,7 +156,15 @@ public class OrdersWindowFrame extends  NewWindowFrame
         }
         else if(source == editButton)
         {
-            client.setEditOrdersDialog();
+            try
+            {
+                ordersResult.absolute(ordersList.getSelectedIndex()+1);
+                client.setEditOrdersDialog(ordersResult.getString("ID"));
+            } catch (SQLException e1)
+            {
+                e1.printStackTrace();
+            }
+
         }
         else if(source == deleteButton)
         {

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -75,6 +76,12 @@ public class RequestsWindowFrame extends NewWindowFrame
         brakLabel = new JLabel("Ilość Brakująca:\t");
         valueLabel = new JLabel("Wartość:\t");
 
+        projectLabel.setForeground(Color.gray);
+        materialLabel.setForeground(Color.gray);
+        potrzLabel.setForeground(Color.gray);
+        zgromLabel.setForeground(Color.gray);
+        brakLabel.setForeground(Color.gray);
+        valueLabel.setForeground(Color.gray);
 
         projectLabel.setBounds(500,150,500,30);
         materialLabel.setBounds(500,180,500,30);
@@ -95,7 +102,7 @@ public class RequestsWindowFrame extends NewWindowFrame
         {
             add(editButton);
             add(deleteButton);
-            add(addButton);
+
         }
 
 
@@ -111,12 +118,12 @@ public class RequestsWindowFrame extends NewWindowFrame
     private void setInfoRequest() throws SQLException
     {
         requestResult.absolute(requestList.getSelectedIndex()+1);
-        projectLabel.setText("Projekt:\t"+requestResult.getString("Projekt"));
-        materialLabel.setText("Materiał:\t"+requestResult.getString("Material"));
-        potrzLabel.setText("Ilość Potrzebna:\t"+requestResult.getString("Ilosc_potrzebna"));
-        zgromLabel.setText("Ilość Zgromadzona:\t"+requestResult.getString("Ilosc_zgromadzona"));
-        brakLabel.setText("Ilość Brakująca:\t"+requestResult.getString("Ilosc_brakujaca"));
-        valueLabel.setText("Wartość:\t"+requestResult.getString("Wartosc"));
+        projectLabel.setText("Projekt:\t    "+requestResult.getString("Projekt"));
+        materialLabel.setText("Materiał:\t  "+requestResult.getString("Material"));
+        potrzLabel.setText("Ilość Potrzebna:\t  "+requestResult.getString("Ilosc_potrzebna"));
+        zgromLabel.setText("Ilość Zgromadzona:\t    "+requestResult.getString("Ilosc_zgromadzona"));
+        brakLabel.setText("Ilość Brakująca:\t   "+requestResult.getString("Ilosc_brakujaca"));
+        valueLabel.setText("Wartość:\t  "+requestResult.getString("Wartosc"));
 
     }
     void getList() throws SQLException
@@ -142,11 +149,7 @@ public class RequestsWindowFrame extends NewWindowFrame
             client.setMenuWindow();
             dispose();
         }
-        else if(source == addButton)
-        {
-            client.setAddRequestDialog();
 
-        }
         else if(source == editButton)
         {
             client.setEditRequestDialog();

@@ -1,6 +1,5 @@
 import Server.Server;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Client
@@ -36,9 +35,9 @@ public class Client
         new AddStorageDialog(this);
     }
 
-    void setEditStorageDialog()
+    void setEditStorageDialog(String mat, String il)
     {
-        new EditStorageDialog(this);
+        new EditStorageDialog(this,mat,il);
     }
 
     void setAddProjectDialog()
@@ -46,14 +45,14 @@ public class Client
         new AddProjectDialog(this);
     }
 
-    void setEditProjectDialog()
+    void setEditProjectDialog(String id)
     {
-        new EditProjectDialog(this);
+        new EditProjectDialog(this,id);
     }
 
-    void setAddRequestDialog()
+    void setAddRequestDialog(String pro)
     {
-        new AddRequestDialog(this);
+        new AddRequestDialog(this,pro);
     }
 
     void setEditRequestDialog()
@@ -76,9 +75,9 @@ public class Client
         new AddOrderDialog(this);
     }
 
-    void setEditOrdersDialog()
+    void setEditOrdersDialog(String id)
     {
-        new EditOrderDialog(this);
+        new EditOrderDialog(this,id);
     }
 
     void setMenuWindow()
@@ -111,10 +110,6 @@ public class Client
         ordersWindowFrame=new OrdersWindowFrame(this,version,server.showOrders());
     }
 
-    void setAdminWindow()
-    {
-        new AdminWindowFrame(this);
-    }
 
 
     public static void main(String[] args) throws Exception

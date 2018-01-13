@@ -148,14 +148,10 @@ public class MenuWindowFrame extends NewWindowFrame
             dispose();
 
         }
-        else if(source == adminButton)
-        {
-            client.setAdminWindow();
-            dispose();
-        }
+
         else if(source == infoButton)
         {
-            JOptionPane.showMessageDialog(null,"INFO","INFO",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Aplikacja stworzona przez:\n < Mateusz Węgliński > \n < Marcin Musielski >\n 2018\n v1.0 alpha","INFO",JOptionPane.INFORMATION_MESSAGE);
         }
     }
 

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ public class ProjectsWindowFrame extends NewWindowFrame
     private MenuButton addButton;
     private MenuButton editButton;
     private MenuButton deleteButton;
+    private MenuButton requestButton;
     private JList projectList;
     private JLabel idLabel;
     private JLabel nameLabel;
@@ -65,6 +67,13 @@ public class ProjectsWindowFrame extends NewWindowFrame
         editButton.addActionListener(this);
         editButton.setEnabled(false);
 
+        requestButton=new MenuButton("DODAJ POTRZEBNE");
+        requestButton.setBounds(150,680,200,50);
+        add(requestButton);
+        requestButton.addActionListener(this);
+        requestButton.setEnabled(false);
+        requestButton.setFont(requestButton.getFont().deriveFont(15f));
+
         returnButton = new MenuButton("POWRÓT");
         returnButton.setBounds(1156,708,200,50);
         add(returnButton);
@@ -76,18 +85,32 @@ public class ProjectsWindowFrame extends NewWindowFrame
         addButton.addActionListener(this);
 
 
-        idLabel = new JLabel("ID:\t");
-        nameLabel = new JLabel("NAZWA:\t");
-        startLabel = new JLabel("DATA ROZPOCZĘCIA:\t");
-        termLabel = new JLabel("TERMIN:\t");
-        careLabel = new JLabel("NADZORUJĄCY:\t");
-        orderLabel = new JLabel("ZAMAWIAJĄCY:\t");
-        priceLabel = new JLabel("WYNAGRODZENIE:\t");
-        budgetLabel = new JLabel("BUDŻET:\t");
-        matCostLabel = new JLabel("KOSZTY MATERIAŁÓW:\t");
-        totalLabel = new JLabel("KOSZT CAŁKOWITY:\t");
-        statusLabel = new JLabel("STATUS:\t");
-        amountLabel = new JLabel("ILOŚĆ:");
+        idLabel = new JLabel("ID:\t         ");
+        nameLabel = new JLabel("NAZWA:\t        ");
+        startLabel = new JLabel("DATA ROZPOCZĘCIA:\t       ");
+        termLabel = new JLabel("TERMIN:\t       ");
+        careLabel = new JLabel("NADZORUJĄCY:\t      ");
+        orderLabel = new JLabel("ZAMAWIAJĄCY:\t     ");
+        priceLabel = new JLabel("WYNAGRODZENIE:\t       ");
+        budgetLabel = new JLabel("BUDŻET:\t     ");
+        matCostLabel = new JLabel("KOSZTY MATERIAŁÓW:\t     ");
+        totalLabel = new JLabel("KOSZT CAŁKOWITY:\t     ");
+        statusLabel = new JLabel("STATUS:\t     ");
+        amountLabel = new JLabel("ILOŚĆ:        ");
+
+        idLabel.setForeground(Color.gray);
+        nameLabel.setForeground(Color.gray);
+        startLabel.setForeground(Color.gray);
+        termLabel.setForeground(Color.gray);
+        careLabel.setForeground(Color.gray);
+        orderLabel.setForeground(Color.gray);
+        priceLabel.setForeground(Color.gray);
+        budgetLabel.setForeground(Color.gray);
+        matCostLabel.setForeground(Color.gray);
+        totalLabel.setForeground(Color.gray);
+        statusLabel.setForeground(Color.gray);
+        amountLabel.setForeground(Color.gray);
+
 
         idLabel.setBounds(500,150,500,30);
         nameLabel.setBounds(500,180,500,30);
@@ -147,18 +170,18 @@ public class ProjectsWindowFrame extends NewWindowFrame
     private void setInfoProject() throws SQLException
     {
         projectResult.absolute(projectList.getSelectedIndex()+1);
-        idLabel.setText("ID:\t"+projectResult.getString("ID"));
-        nameLabel.setText("NAZWA:\t"+projectResult.getString("Nazwa"));
-        startLabel.setText("DATA ROZPOCZĘCIA:\t"+projectResult.getString("Data_rozpoczecia"));
-        termLabel.setText("TERMIN:\t"+projectResult.getString("Termin"));
-        amountLabel.setText("ILOŚĆ:\t"+projectResult.getString("Ilosc"));
-        careLabel.setText("NADZORUJĄCY:\t"+projectResult.getString("Nadzorca"));
-        orderLabel.setText("ZAMAWIAJĄCY:\t"+projectResult.getString("Zamawiajacy"));
-        priceLabel.setText("WYNAGRODZENIE:\t"+projectResult.getString("Wynagrodzenie"));
-        budgetLabel.setText("BUDŻET:\t"+projectResult.getString("Budzet"));
-        matCostLabel.setText("KOSZT MATERIAŁÓW:\t"+projectResult.getString("Koszt_materialow"));
-        totalLabel.setText("KOSZT CAŁKOWITY:\t"+projectResult.getString("Koszt_calkowity"));
-        statusLabel.setText("STATUS:\t"+projectResult.getString("Status"));
+        idLabel.setText("ID:\t      "+projectResult.getString("ID"));
+        nameLabel.setText("NAZWA:\t     "+projectResult.getString("Nazwa"));
+        startLabel.setText("DATA ROZPOCZĘCIA:\t     "+projectResult.getString("Data_rozpoczecia"));
+        termLabel.setText("TERMIN:\t      "+projectResult.getString("Termin"));
+        amountLabel.setText("ILOŚĆ:\t      "+projectResult.getString("Ilosc"));
+        careLabel.setText("NADZORUJĄCY:\t       "+projectResult.getString("Nadzorca"));
+        orderLabel.setText("ZAMAWIAJĄCY:\t      "+projectResult.getString("Zamawiajacy"));
+        priceLabel.setText("WYNAGRODZENIE:\t        "+projectResult.getString("Wynagrodzenie"));
+        budgetLabel.setText("BUDŻET:\t      "+projectResult.getString("Budzet"));
+        matCostLabel.setText("KOSZT MATERIAŁÓW:\t       "+projectResult.getString("Koszt_materialow"));
+        totalLabel.setText("KOSZT CAŁKOWITY:\t      "+projectResult.getString("Koszt_calkowity"));
+        statusLabel.setText("STATUS:\t      "+projectResult.getString("Status"));
 
     }
 
@@ -180,9 +203,27 @@ public class ProjectsWindowFrame extends NewWindowFrame
             client.setAddProjectDialog();
 
         }
+        else if(source == requestButton)
+        {
+            try
+            {
+                client.setAddRequestDialog(projectResult.getString("ID"));
+            } catch (SQLException e1)
+            {
+                e1.printStackTrace();
+            }
+        }
         else if(source == editButton)
         {
-            client.setEditProjectDialog();
+            try
+            {
+                projectResult.absolute(projectList.getSelectedIndex()+1);
+                client.setEditProjectDialog(projectResult.getString("ID"));
+            } catch (SQLException e1)
+            {
+                e1.printStackTrace();
+            }
+
         }
         else if(source == deleteButton)
         {
@@ -207,6 +248,7 @@ public class ProjectsWindowFrame extends NewWindowFrame
     public void valueChanged(ListSelectionEvent e)
     {
         editButton.setEnabled(true);
+        requestButton.setEnabled(true);
         projectList.getSelectedIndex();
         try
         {

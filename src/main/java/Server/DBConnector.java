@@ -526,7 +526,7 @@ public class DBConnector {
     //==================================================================================================================
 
     protected int setProjectStatus(String id, String status){
-        String query = "CALL setProjectStatus("+id+", "+status+")";
+        String query = "CALL setProjectStatus("+id+", '"+status+"')";
         try{
             doCall(query);
             System.out.println("DBConnector.setProjectStatus: Status set.");
@@ -552,7 +552,7 @@ public class DBConnector {
     }
 
     protected int setOrderStatus(String id, String status){
-        String query = "CALL setOrderStatus("+id+", "+status+")";
+        String query = "CALL setOrderStatus("+id+", '"+status+"')";
         try{
             doCall(query);
             System.out.println("DBConnector.setOrderStatus: Status set.");

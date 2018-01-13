@@ -19,10 +19,12 @@ public class AddRequestDialog extends NewWindowDialog
     private JTextField zgromField;
     private JTextField valueField;
     private JTextField projectField;
+    String pro;
 
-    AddRequestDialog(Client client)
+    AddRequestDialog(Client client,String pro)
     {
         this.client=client;
+        this.pro = pro;
         buildDialog();
         makeGui();
         setModalityType(ModalityType.APPLICATION_MODAL);
@@ -38,7 +40,7 @@ public class AddRequestDialog extends NewWindowDialog
         titleLabel.setFont(titleLabel.getFont().deriveFont(40f));
         add(titleLabel);
 
-        projectLabel = new JLabel("Projekt");
+        projectLabel = new JLabel("Projekt:\t"+pro);
         materialLabel = new JLabel("Materiał");
         potrzLabel = new JLabel("Potrzebne");
         zgromLabel = new JLabel("Zgromadzono");
@@ -68,7 +70,7 @@ public class AddRequestDialog extends NewWindowDialog
         zgromField.setBounds(300,330,200,30);
         valueField.setBounds(300,390,200,30);
 
-        add(projectField);
+
         add(materialField);
         add(zgromField);
         add(potrzField);
@@ -80,7 +82,7 @@ public class AddRequestDialog extends NewWindowDialog
         zgromLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         valueLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
-        projectField.setFont(projectField.getFont().deriveFont(20f));
+
         materialField.setFont(materialField.getFont().deriveFont(20f));
         potrzField.setFont(potrzField.getFont().deriveFont(20f));
         zgromField.setFont(zgromField.getFont().deriveFont(20f));
@@ -109,14 +111,14 @@ public class AddRequestDialog extends NewWindowDialog
         }
         else if(source == addButton)
         {
-            if(projectField.getText().isEmpty() || materialField.getText().isEmpty() || potrzField.getText().isEmpty() || zgromField.getText().isEmpty()|| valueField.getText().isEmpty())
+            if( materialField.getText().isEmpty() || potrzField.getText().isEmpty() || zgromField.getText().isEmpty()|| valueField.getText().isEmpty())
             {
                 JOptionPane.showMessageDialog(null,"Błąd danych - uzupełnij");
             }
             else
             {
                 int x = Integer.parseInt(potrzField.getText()) - Integer.parseInt(zgromField.getText());
-                client.server.addRequired(projectField.getText(),materialField.getText(),potrzField.getText(),zgromField.getText(),Integer.toString(x),valueField.getText());
+                client.server.addRequired(pro,materialField.getText(),potrzField.getText(),zgromField.getText(),Integer.toString(x),valueField.getText());
                 dispose();
                 client.requestsWindowFrame.dispose();
                 try

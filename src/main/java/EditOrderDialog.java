@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 
 public class EditOrderDialog extends NewWindowDialog
 {
@@ -21,9 +22,10 @@ public class EditOrderDialog extends NewWindowDialog
 
     private String currentOrder;
 
-    EditOrderDialog(Client client)
+    EditOrderDialog(Client client,String currentOrder)
     {
         this.client = client;
+        this.currentOrder = currentOrder;
         buildDialog();
         makeGui();
         setModalityType(ModalityType.APPLICATION_MODAL);
@@ -71,16 +73,16 @@ public class EditOrderDialog extends NewWindowDialog
         dateField.setBounds(300,325,200,30);
         statusField.setBounds(300,365,200,30);
 
-        add(nameField);
-        add(amountField);
-        add(dateField);
-        add(valueField);
+      //  add(nameField);
+       // add(amountField);
+       // add(dateField);
+       // add(valueField);
         add(statusField);
 
-        add(nameLabel);
-        add(amountLabel);
-        add(valueLabel);
-        add(dayeLabel);
+        //add(nameLabel);
+        //add(amountLabel);
+        //add(valueLabel);
+        //add(dayeLabel);
         add(statusLabel);
 
         closeButton = new MenuButton("ZAMKNIJ");
@@ -104,7 +106,25 @@ public class EditOrderDialog extends NewWindowDialog
             dispose();
         } else if(source == saveButton)
         {
-            dispose();
+            if(statusField.getText().isEmpty())
+            {
+                JOptionPane.showMessageDialog(null,"Proszę wpisać status!");
+            }
+            else
+            {
+                client.server.setOrderStatus(currentOrder,statusField.getText());
+                client.ordersWindowFrame.dispose();
+                try
+                {
+                    client.setOrdersWindow();
+                } catch (SQLException e1)
+                {
+                    e1.printStackTrace();
+                }
+                dispose();
+
+            }
+
         }
     }
 }

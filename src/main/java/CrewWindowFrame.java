@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -73,10 +74,17 @@ public class CrewWindowFrame extends NewWindowFrame
         addButton.addActionListener(this);
 
         idLabel = new JLabel("ID:\t");
-        nameLabel = new JLabel("Imię:\t");
+        nameLabel = new JLabel("Imię:\t ");
         surLabel = new JLabel("Nazwisko:\t");
         posLabel = new JLabel("Stanowisko:\t");
         payLabel = new JLabel("Pensja:\t");
+
+
+        idLabel.setForeground(Color.gray);
+        nameLabel.setForeground(Color.gray);
+        surLabel.setForeground(Color.gray);
+        posLabel.setForeground(Color.gray);
+        payLabel.setForeground(Color.gray);
 
         idLabel.setBounds(500,150,500,30);
         nameLabel.setBounds(500,180,500,30);
@@ -119,11 +127,11 @@ public class CrewWindowFrame extends NewWindowFrame
     private void setInfoCrew() throws SQLException
     {
         crewResult.absolute(crewList.getSelectedIndex()+1);
-        idLabel.setText("ID:\t"+crewResult.getString("ID"));
-        nameLabel.setText("Imię:\t"+crewResult.getString("Imie"));
-        surLabel.setText("Nazwisko:\t"+crewResult.getString("Nazwisko"));
-        posLabel.setText("Stanowisko:\t"+crewResult.getString("Stanowisko"));
-        payLabel.setText("Pensja:\t"+crewResult.getString("Pensja"));
+        idLabel.setText("ID:\t  "+crewResult.getString("ID"));
+        nameLabel.setText("Imię:\t  "+crewResult.getString("Imie"));
+        surLabel.setText("Nazwisko:\t   "+crewResult.getString("Nazwisko"));
+        posLabel.setText("Stanowisko:\t "+crewResult.getString("Stanowisko"));
+        payLabel.setText("Pensja:\t     "+crewResult.getString("Pensja"));
 
     }
 

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -79,6 +80,10 @@ public class StorageWindowFrame extends NewWindowFrame
         numberLabel.setFont(numberLabel.getFont().deriveFont(15f));
         valueLabel.setFont(valueLabel.getFont().deriveFont(15f));
 
+        materialLabel.setForeground(Color.gray);
+        numberLabel.setForeground(Color.gray);
+        valueLabel.setForeground(Color.gray);
+
         if(version == 0)
         {
             add(editButton);
@@ -112,9 +117,9 @@ public class StorageWindowFrame extends NewWindowFrame
     private void setInfoStorage() throws SQLException
     {
         storageResult.absolute(storageList.getSelectedIndex()+1);
-        materialLabel.setText("Materiał:\t"+storageResult.getString("Material"));
-        numberLabel.setText("Ilość:\t"+storageResult.getString("Ilosc"));
-        valueLabel.setText("Wartość sztuki:\t"+storageResult.getString("Wartos_sztuki"));
+        materialLabel.setText("Materiał:\t  "+storageResult.getString("Material"));
+        numberLabel.setText("Ilość:\t   "+storageResult.getString("Ilosc"));
+        valueLabel.setText("Wartość sztuki:\t   "+storageResult.getString("Wartos_sztuki"));
     }
 
     @Override
@@ -133,7 +138,15 @@ public class StorageWindowFrame extends NewWindowFrame
         }
         else if(source == editButton)
         {
-            client.setEditStorageDialog();
+            try
+            {
+                storageResult.absolute(storageList.getSelectedIndex()+1);
+                client.setEditStorageDialog(storageResult.getString("Material"),storageResult.getString("Ilosc"));
+            } catch (SQLException e1)
+            {
+                e1.printStackTrace();
+            }
+
         }
         else if(source == deleteButton)
         {

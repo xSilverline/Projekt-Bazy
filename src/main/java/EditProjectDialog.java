@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 
 public class EditProjectDialog extends NewWindowDialog
 {
@@ -32,9 +33,10 @@ public class EditProjectDialog extends NewWindowDialog
 
     private String currentProject;
 
-    EditProjectDialog(Client client)
+    EditProjectDialog(Client client,String currentProject)
     {
         this.client = client;
+        this.currentProject = currentProject;
         buildDialog();
         makeGui();
         setModalityType(ModalityType.APPLICATION_MODAL);
@@ -46,8 +48,15 @@ public class EditProjectDialog extends NewWindowDialog
     void makeGui()
     {
 
+        statusLabel = new JLabel("STATUS:");
+        statusField = new JTextField("",30);
+        statusLabel.setBounds(150,460,140,40);
+        statusLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        statusField.setBounds(300,465,200,30);
+        add(statusField);
+        add(statusLabel);
 
-
+/*
         nameLabel = new JLabel("PROJEKT: "+currentProject);
         startLabel = new JLabel("DATA ROZPOCZĘCIA:");
         termLabel = new JLabel("TERMIN:");
@@ -57,7 +66,7 @@ public class EditProjectDialog extends NewWindowDialog
         budgetLabel = new JLabel("BUDŻET:");
         matCostLabel = new JLabel("KOSZT MATERIAŁÓW:");
         totalLabel = new JLabel("KOSZT CAŁKOWITY:");
-        statusLabel = new JLabel("STATUS:");
+
 
 
 
@@ -69,7 +78,7 @@ public class EditProjectDialog extends NewWindowDialog
         budgetField = new JTextField("",30);
         matCostField = new JTextField("",30);
         totalFIeld = new JTextField("",30);
-        statusField = new JTextField("",30);
+
 
         nameLabel.setBounds(100,10,600,50);
         nameLabel.setFont(nameLabel.getFont().deriveFont(30f));
@@ -84,7 +93,7 @@ public class EditProjectDialog extends NewWindowDialog
         budgetLabel.setBounds(150,340,140,40);
         matCostLabel.setBounds(150,380,140,40);
         totalLabel.setBounds(150,420,140,40);
-        statusLabel.setBounds(150,460,140,40);
+
 
 
         nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -96,7 +105,7 @@ public class EditProjectDialog extends NewWindowDialog
         budgetLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         matCostLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         totalLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-        statusLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+
 
 
         startField.setBounds(300,145,200,30);
@@ -107,7 +116,7 @@ public class EditProjectDialog extends NewWindowDialog
         budgetField.setBounds(300,345,200,30);
         matCostField.setBounds(300,385,200,30);
         totalFIeld.setBounds(300,425,200,30);
-        statusField.setBounds(300,465,200,30);
+
 
 
         startField.setFont(startField.getFont().deriveFont(20f));
@@ -123,7 +132,7 @@ public class EditProjectDialog extends NewWindowDialog
         add(budgetField);
         add(matCostField);
         add(totalFIeld);
-        add(statusField);
+
 
         add(nameLabel);
         add(matCostLabel);
@@ -134,14 +143,15 @@ public class EditProjectDialog extends NewWindowDialog
         add(orderLabel);
         add(priceLabel);
         add(budgetLabel);
-        add(statusLabel);
+
+*/
 
 
-        add(closeButton);
-        closeButton.addActionListener(this);
+
         closeButton = new MenuButton("ZAMKNIJ");
         closeButton.setBounds(590,540,200,50);
-
+        add(closeButton);
+        closeButton.addActionListener(this);
         saveButton = new MenuButton("ZAPISZ");
         saveButton.setBounds(590,400,200,50);
         add(saveButton);
@@ -159,7 +169,26 @@ public class EditProjectDialog extends NewWindowDialog
             dispose();
         } else if(source == saveButton)
         {
-            dispose();
+
+            if(statusField.getText().isEmpty())
+            {
+                JOptionPane.showMessageDialog(null,"Prosze wprowadzić status!");
+
+            }
+            else
+            {
+                client.server.setProjectStatus(currentProject,statusField.getText());
+
+                client.projectsWindowFrame.dispose();
+                try
+                {
+                    client.setProjectsWindow();
+                } catch (SQLException e1)
+                {
+                    e1.printStackTrace();
+                }
+                dispose();
+            }
         }
 
     }
