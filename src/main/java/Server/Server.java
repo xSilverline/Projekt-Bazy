@@ -221,6 +221,24 @@ public class Server {
         return 0;
     }
 
+    public int removeStock(String material){
+        if(dbConnector.removeStock(material) ==1){
+            System.out.println("Server.removeStock: Stock entry removed.");
+            return 1;
+        }
+        System.out.println("Server.removeStock: Could not remove stock entry.");
+        return 0;
+    }
+
+    public int setStock(String material, String ilosc){
+        if(dbConnector.setStock(material, ilosc) ==1){
+            System.out.println("Server.setStock: Stock entry set.");
+            return 1;
+        }
+        System.out.println("Server.setStock: Could not set stock entry.");
+        return 0;
+    }
+
     public ResultSet showProjects(){
         return dbConnector.getProjects();
     }

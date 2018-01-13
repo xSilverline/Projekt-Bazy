@@ -380,6 +380,32 @@ public class DBConnector {
         }
     }
 
+    protected int removeStock(String material){
+        String query = "CALL removeStock('"+material+"');";
+        try{
+            doCall(query);
+            System.out.println("DBConnector.removeStock: Stock entry removed.");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.removeStock: Exception has occurred. Could not remove stock entry.");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    protected int setStock(String material, String ilosc){
+        String query = "CALL setStock('"+material+"', "+ilosc+");";
+        try{
+            doCall(query);
+            System.out.println("DBConnector.setStock: Stock entry set.");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.setStock: Exception has occurred. Could not set stock entry.");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     //==================================================================================================================
     //
     //SHOWING THINGS
