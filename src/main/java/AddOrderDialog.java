@@ -120,7 +120,7 @@ public class AddOrderDialog extends NewWindowDialog
             }
             else
             {
-                client.server.addOrder(nameField.getText(),amountField.getText(),dateField.getText(),valueField.getText());
+                client.server.addOrder(nameField.getText(),amountField.getText(),valueField.getText(),dateField.getText());
                 dispose();
                 try
                 {

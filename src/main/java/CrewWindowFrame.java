@@ -100,7 +100,7 @@ public class CrewWindowFrame extends NewWindowFrame
 
         if(version == 0)
         {
-            add(editButton);
+           // add(editButton);
             add(deleteButton);
             add(addButton);
         }
