@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 
 public class MenuWindowFrame extends NewWindowFrame
 {
@@ -40,9 +41,9 @@ public class MenuWindowFrame extends NewWindowFrame
 
         storageButton.setBounds(0,34,300,140);
         projectsButton.setBounds(0,174,300,140);
-        crewButton.setBounds(0,314,300,140);
-        neededButton.setBounds(0,454,300,140);
-        orderedButton.setBounds(0,594,300,140);
+        neededButton.setBounds(0,314,300,140);
+        orderedButton.setBounds(0,454,300,140);
+        crewButton.setBounds(0,594,300,140);
         infoButton.setBounds(1250,34,100,30);
         adminButton.setBounds(1066,454,300,140);
 
@@ -57,13 +58,18 @@ public class MenuWindowFrame extends NewWindowFrame
         add(exitButton);
         add(storageButton);
         add(projectsButton);
-        add(crewButton);
+
         add(neededButton);
-        add(orderedButton);
+
         add(infoButton);
-        if(version == 0)
+        if(version <1)
         {
             add(adminButton);
+        }
+        if(version<2)
+        {
+            add(crewButton);
+            add(orderedButton);
         }
     }
 
@@ -87,7 +93,13 @@ public class MenuWindowFrame extends NewWindowFrame
         }
         else if(source == storageButton)
         {
-            client.setStorageWindow();
+            try
+            {
+                client.setStorageWindow();
+            } catch (SQLException e1)
+            {
+                e1.printStackTrace();
+            }
             dispose();
 
         }
@@ -99,7 +111,13 @@ public class MenuWindowFrame extends NewWindowFrame
         }
         else if(source == crewButton)
         {
-            client.setCrewWindow();
+            try
+            {
+                client.setCrewWindow();
+            } catch (SQLException e1)
+            {
+                e1.printStackTrace();
+            }
             dispose();
 
         }

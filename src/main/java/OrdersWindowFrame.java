@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 public class OrdersWindowFrame extends  NewWindowFrame
 {
     private Client client;
+    private int version;
     private JButton returnButton;
     private MenuButton addButton;
     private MenuButton editButton;
@@ -16,9 +17,10 @@ public class OrdersWindowFrame extends  NewWindowFrame
     private JLabel statusLabel;
 
 
-    OrdersWindowFrame(Client client)
+    OrdersWindowFrame(Client client,int version)
     {
         this.client=client;
+        this.version = version;
         buildFrame();
         makeGui();
     }
@@ -41,13 +43,13 @@ public class OrdersWindowFrame extends  NewWindowFrame
 
         editButton = new MenuButton("EDYTUJ");
         editButton.setBounds(150,620,200,50);
-        add(editButton);
+
         editButton.addActionListener(this);
         editButton.setEnabled(false);
 
         deleteButton = new MenuButton("USUŃ");
         deleteButton.setBounds(150,90,200,50);
-        add(deleteButton);
+
         deleteButton.addActionListener(this);
         deleteButton.setEnabled(false);
 
@@ -58,7 +60,7 @@ public class OrdersWindowFrame extends  NewWindowFrame
 
         addButton = new MenuButton("DODAJ");
         addButton.setBounds(150,560,200,50);
-        add(addButton);
+
         addButton.addActionListener(this);
 
         materialLabel = new JLabel("Materiał:\t");
@@ -78,6 +80,13 @@ public class OrdersWindowFrame extends  NewWindowFrame
         valueLabel.setFont(valueLabel.getFont().deriveFont(15f));
         dateLabel.setFont(dateLabel.getFont().deriveFont(15f));
         statusLabel.setFont(statusLabel.getFont().deriveFont(15f));
+
+        if(version == 0)
+        {
+            add(editButton);
+            add(deleteButton);
+            add(addButton);
+        }
 
         add(materialLabel);
         add(numberLabel);

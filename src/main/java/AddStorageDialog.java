@@ -8,6 +8,10 @@ public class AddStorageDialog extends NewWindowDialog
     private MenuButton addButton;
     private MenuButton closeButton;
 
+    private JTextField nameField;
+    private JTextField numberField;
+    private JTextField valueField;
+
     AddStorageDialog(Client client)
     {
         this.client=client;
@@ -37,9 +41,12 @@ public class AddStorageDialog extends NewWindowDialog
         JLabel numberLabel = new JLabel("ILOSC:");
         JLabel valueLabel = new JLabel("WARTOSC SZTUKI:");
 
-        JTextField nameField = new JTextField("", 30);
-        JTextField numberField = new JTextField("", 5);
-        JTextField valueField = new JTextField("", 10);
+
+        nameField = new JTextField("", 30);
+
+        numberField = new JTextField("", 5);
+
+        valueField = new JTextField("", 10);
 
         nameLabel.setBounds(150,200,140,50);
         numberLabel.setBounds(150,260,140,50);
@@ -82,7 +89,20 @@ public class AddStorageDialog extends NewWindowDialog
         }
         else if(source == addButton)
         {
-            dispose();
+            if(nameField.getText().isEmpty() || numberField.getText().isEmpty() || valueField.getText().isEmpty())
+            {
+                JOptionPane.showMessageDialog(null,"Błąd danych - uzupełnij");
+            }
+            else
+            {
+                String name = nameField.getText();
+                int number = Integer.parseInt(numberField.getText());
+                double value = Double.parseDouble(valueField.getText());
+
+
+                dispose();
+            }
+
             //TODO: add to storage
         }
 

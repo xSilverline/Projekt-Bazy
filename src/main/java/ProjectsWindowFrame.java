@@ -1,10 +1,13 @@
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ProjectsWindowFrame extends NewWindowFrame
 {
     private Client client;
+    private int version;
     private JButton returnButton;
     private MenuButton addButton;
     private MenuButton editButton;
@@ -21,13 +24,21 @@ public class ProjectsWindowFrame extends NewWindowFrame
     private JLabel matCostLabel;
     private JLabel totalLabel;
     private JLabel statusLabel;
+    private JLabel amountLabel;
+
+    private ResultSet projectResult;
+
+    private DefaultListModel<String> list = new DefaultListModel<>();
 
 
-    ProjectsWindowFrame(Client client)
+    ProjectsWindowFrame(Client client, int version, ResultSet projectResult) throws SQLException
     {
         this.client = client;
+        this.version = version;
+        this.projectResult = projectResult;
         buildFrame();
         makeGui();
+        getList();
     }
     void makeGui()
     {
@@ -36,8 +47,8 @@ public class ProjectsWindowFrame extends NewWindowFrame
         stanLabel.setBounds(483,10,400,50);
         add(stanLabel);
 
-        DefaultListModel<String> list = new DefaultListModel<>();
-        list.addElement("DUPA");
+
+
 
         projectList = new JList(list);
         JScrollPane scrollList = new JScrollPane(projectList);
@@ -47,13 +58,13 @@ public class ProjectsWindowFrame extends NewWindowFrame
 
         deleteButton = new MenuButton("USUŃ");
         deleteButton.setBounds(150,90,200,50);
-        add(deleteButton);
+
         deleteButton.addActionListener(this);
         deleteButton.setEnabled(false);
 
         editButton = new MenuButton("EDYTUJ");
         editButton.setBounds(150,620,200,50);
-        add(editButton);
+
         editButton.addActionListener(this);
         editButton.setEnabled(false);
 
@@ -64,33 +75,35 @@ public class ProjectsWindowFrame extends NewWindowFrame
 
         addButton = new MenuButton("DODAJ");
         addButton.setBounds(150,560,200,50);
-        add(addButton);
+
         addButton.addActionListener(this);
 
 
         idLabel = new JLabel("ID:\t");
-        nameLabel = new JLabel("Nazwa:\t");
-        startLabel = new JLabel("Data rozpoczęcia:\t");
-        termLabel = new JLabel("Termin:\t");
-        careLabel = new JLabel("Nadzorujący:\t");
-        orderLabel = new JLabel("Zamawiający:\t");
-        priceLabel = new JLabel("Wynagrodzenie:\t");
-        budgetLabel = new JLabel("Budżet:\t");
-        matCostLabel = new JLabel("Koszt Materiałów:\t");
-        totalLabel = new JLabel("Koszt Całkowity:\t");
-        statusLabel = new JLabel("Status:\t");
+        nameLabel = new JLabel("NAZWA:\t");
+        startLabel = new JLabel("DATA ROZPOCZĘCIA:\t");
+        termLabel = new JLabel("TERMIN:\t");
+        careLabel = new JLabel("NADZORUJĄCY:\t");
+        orderLabel = new JLabel("ZAMAWIAJĄCY:\t");
+        priceLabel = new JLabel("WYNAGRODZENIE:\t");
+        budgetLabel = new JLabel("BUDŻET:\t");
+        matCostLabel = new JLabel("KOSZTY MATERIAŁÓW:\t");
+        totalLabel = new JLabel("KOSZT CAŁKOWITY:\t");
+        statusLabel = new JLabel("STATUS:\t");
+        amountLabel = new JLabel("ILOŚĆ:");
 
         idLabel.setBounds(500,150,500,30);
         nameLabel.setBounds(500,180,500,30);
         startLabel.setBounds(500,210,500,30);
         termLabel.setBounds(500,240,500,30);
-        careLabel.setBounds(500,270,500,30);
-        orderLabel.setBounds(500,300,500,30);
-        priceLabel.setBounds(500,330,500,30);
-        budgetLabel.setBounds(500,360,500,30);
-        matCostLabel.setBounds(500,390,500,30);
-        totalLabel.setBounds(500,420,500,30);
-        statusLabel.setBounds(500,450,500,30);
+        amountLabel.setBounds(500,270,500,30);
+        careLabel.setBounds(500,300,500,30);
+        orderLabel.setBounds(500,330,500,30);
+        priceLabel.setBounds(500,360,500,30);
+        budgetLabel.setBounds(500,390,500,30);
+        matCostLabel.setBounds(500,420,500,30);
+        totalLabel.setBounds(500,450,500,30);
+        statusLabel.setBounds(500,480,500,30);
 
         idLabel.setFont(idLabel.getFont().deriveFont(15f));
         nameLabel.setFont(nameLabel.getFont().deriveFont(15f));
@@ -103,6 +116,13 @@ public class ProjectsWindowFrame extends NewWindowFrame
         matCostLabel.setFont(matCostLabel.getFont().deriveFont(15f));
         totalLabel.setFont(totalLabel.getFont().deriveFont(15f));
         statusLabel.setFont(statusLabel.getFont().deriveFont(15f));
+
+        if(version == 0)
+        {
+            add(editButton);
+            add(deleteButton);
+            add(addButton);
+        }
 
         add(idLabel);
         add(nameLabel);
@@ -118,19 +138,30 @@ public class ProjectsWindowFrame extends NewWindowFrame
 
 
     }
-    private void setInfoProject()
+
+    void getList() throws SQLException
     {
-        idLabel.setText("ID:\t");
-        nameLabel.setText("Nazwa:\t");
-        startLabel.setText("Data rozpoczęcia:\t");
-        termLabel.setText("Termin:\t");
-        careLabel.setText("Nadzorujący:\t");
-        orderLabel.setText("Zamawiający:\t");
-        priceLabel.setText("Wynagrodzenie:\t");
-        budgetLabel.setText("Budżet:\t");
-        matCostLabel.setText("Koszt Materiałów:\t");
-        totalLabel.setText("Koszt Całkowity:\t");
-        statusLabel.setText("Status:\t");
+        list.clear();
+        while (projectResult.next())
+        {
+            list.addElement(projectResult.getString("ID")+"  "+projectResult.getString("Nazwa")+"  "+projectResult.getString("Status"));
+        }
+    }
+    private void setInfoProject() throws SQLException
+    {
+        projectResult.absolute(projectList.getSelectedIndex()+1);
+        idLabel.setText("ID:\t"+projectResult.getString("ID"));
+        nameLabel.setText("NAZWA:\t"+projectResult.getString("Nazwa"));
+        startLabel.setText("DATA ROZPOCZĘCIA:\t"+projectResult.getString("Data_rozpoczecia"));
+        termLabel.setText("TERMIN:\t"+projectResult.getString("Termin"));
+        amountLabel.setText("ILOŚĆ:\t"+projectResult.getString("Ilosc"));
+        careLabel.setText("NADZORUJĄCY:\t"+projectResult.getString("Nadzorca"));
+        orderLabel.setText("ZAMAWIAJĄCY:\t"+projectResult.getString("Zamawiajacy"));
+        priceLabel.setText("WYNAGRODZENIE:\t"+projectResult.getString("Wynagrodzenie"));
+        budgetLabel.setText("BUDŻET:\t"+projectResult.getString("Budzet"));
+        matCostLabel.setText("KOSZT MATERIAŁÓW:\t"+projectResult.getString("Koszt_materialow"));
+        totalLabel.setText("KOSZT CAŁKOWITY:\t"+projectResult.getString("Koszt_calkowity"));
+        statusLabel.setText("STATUS:\t"+projectResult.getString("Status"));
 
     }
 
@@ -158,6 +189,18 @@ public class ProjectsWindowFrame extends NewWindowFrame
         }
         else if(source == deleteButton)
         {
+            int i = projectList.getSelectedIndex()+1;
+            try
+            {
+                projectResult.absolute(i);
+                client.server.removeUser(projectResult.getString("Login"));
+                client.projectsWindowFrame.dispose();
+                client.setProjectsWindow();
+
+            } catch (SQLException e1)
+            {
+                e1.printStackTrace();
+            }
 
         }
 
@@ -168,7 +211,13 @@ public class ProjectsWindowFrame extends NewWindowFrame
     {
         editButton.setEnabled(true);
         projectList.getSelectedIndex();
-        setInfoProject();
+        try
+        {
+            setInfoProject();
+        } catch (SQLException e1)
+        {
+            e1.printStackTrace();
+        }
         deleteButton.setEnabled(true);
 
     }

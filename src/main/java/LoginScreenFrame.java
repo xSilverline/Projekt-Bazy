@@ -89,20 +89,41 @@ public class LoginScreenFrame extends NewWindowFrame {
         }
         else if (source==connectButton);
         {
-            client.setMenuWindow();
-            dispose();
+
+            //client.setMenuWindow();
+            //dispose();
             login = userText.getText().trim();
             pass = passwordText.getText().trim();
-               /* if (client.server.login(login, pass) == 1)
+                if (client.server.login(login, pass) == 1)
                 {
 
-                    ResultSet rs = client.server.showEmployees();
+                    String stan=client.server.getStanowisko(login);
+                    if(stan.startsWith("Zarzad"))
+                    {
+                        client.setVersion(0);
+                        client.setMenuWindow();
+                        dispose();
+                    }
+                    else if(stan.startsWith("Logistyk"))
+                    {
+                        client.setVersion(1);
+                        client.setMenuWindow();
+                        dispose();
+                    }
+                    else
+                    {
+                        client.setVersion(2);
+                        client.setMenuWindow();
+                        dispose();
+                    }
 
 
-                    client.setMenuWindow();
-                    dispose();
-                }*/
-                //TODO: if login successful then show message, dispose, show MenuWindow (via Client Class)
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null,"Błędny login lub hasło!");
+                }
+
 
         }
 

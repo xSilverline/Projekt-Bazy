@@ -1,10 +1,13 @@
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class RequestsWindowFrame extends NewWindowFrame
 {
     private Client client;
+    private int version;
     private JButton returnButton;
     private MenuButton addButton;
     private MenuButton editButton;
@@ -15,10 +18,16 @@ public class RequestsWindowFrame extends NewWindowFrame
     private JLabel brakLabel;
     private JLabel valueLabel;
     private MenuButton deleteButton;
+    private DefaultListModel<String> list = new DefaultListModel<>();
+    private JList requestList;
 
-    RequestsWindowFrame(Client client)
+    private ResultSet requestResult;
+
+    RequestsWindowFrame(Client client,int version,ResultSet requestResult)
     {
         this.client = client;
+        this.version = version;
+        this.requestResult = requestResult;
         buildFrame();
         makeGui();
     }
@@ -30,10 +39,7 @@ public class RequestsWindowFrame extends NewWindowFrame
         stanLabel.setBounds(383,10,600,50);
         add(stanLabel);
 
-        DefaultListModel<String> list = new DefaultListModel<>();
-        list.addElement("DUPA");
-
-        JList requestList = new JList(list);
+        requestList = new JList(list);
         JScrollPane scrollList = new JScrollPane(requestList);
         scrollList.setBounds(100,150,300,400);
         add(scrollList);
@@ -41,13 +47,13 @@ public class RequestsWindowFrame extends NewWindowFrame
 
         editButton = new MenuButton("EDYTUJ");
         editButton.setBounds(150,620,200,50);
-        add(editButton);
+
         editButton.addActionListener(this);
         editButton.setEnabled(false);
 
         deleteButton = new MenuButton("USUŃ");
         deleteButton.setBounds(150,90,200,50);
-        add(deleteButton);
+
         deleteButton.addActionListener(this);
         deleteButton.setEnabled(false);
 
@@ -58,7 +64,7 @@ public class RequestsWindowFrame extends NewWindowFrame
 
         addButton = new MenuButton("DODAJ");
         addButton.setBounds(150,560,200,50);
-        add(addButton);
+
         addButton.addActionListener(this);
 
         projectLabel = new JLabel("Projekt:\t");
@@ -84,6 +90,13 @@ public class RequestsWindowFrame extends NewWindowFrame
         brakLabel.setFont(brakLabel.getFont().deriveFont(15f));
         valueLabel.setFont(valueLabel.getFont().deriveFont(15f));
 
+        if(version == 0)
+        {
+            add(editButton);
+            add(deleteButton);
+            add(addButton);
+        }
+
 
         add(projectLabel);
         add(materialLabel);
@@ -94,14 +107,15 @@ public class RequestsWindowFrame extends NewWindowFrame
 
 
     }
-    private void setInfoRequest()
+    private void setInfoRequest() throws SQLException
     {
-        projectLabel.setText("Projekt:\t");
-        materialLabel.setText("Materiał:\t");
-        potrzLabel.setText("Ilość Potrzebna:\t");
-        zgromLabel.setText("Ilość Zgromadzona:\t");
-        brakLabel.setText("Ilość Brakująca:\t");
-        valueLabel.setText("Wartość:\t");
+        requestResult.absolute(requestList.getSelectedIndex()+1);
+        projectLabel.setText("Projekt:\t"+requestResult.getString("Projekt"));
+        materialLabel.setText("Materiał:\t"+requestResult.getString("Material"));
+        potrzLabel.setText("Ilość Potrzebna:\t"+requestResult.getString("Ilosc_potrzebna"));
+        zgromLabel.setText("Ilość Zgromadzona:\t"+requestResult.getString("Ilosc_zgromadzona"));
+        brakLabel.setText("Ilość Brakująca:\t"+requestResult.getString("Ilosc_brakujaca"));
+        valueLabel.setText("Wartość:\t"+requestResult.getString("Wartosc"));
 
     }
 
@@ -129,6 +143,18 @@ public class RequestsWindowFrame extends NewWindowFrame
         }
         else if(source == deleteButton)
         {
+            int i = requestList.getSelectedIndex()+1;
+            try
+            {
+                requestResult.absolute(i);
+                client.server.removeUser(requestResult.getString("Login"));
+                client.requestsWindowFrame.dispose();
+                client.setRequestsWindow();
+
+            } catch (SQLException e1)
+            {
+                e1.printStackTrace();
+            }
 
         }
 
@@ -138,7 +164,13 @@ public class RequestsWindowFrame extends NewWindowFrame
     public void valueChanged(ListSelectionEvent e)
     {
         editButton.setEnabled(true);
-        setInfoRequest();
+        try
+        {
+            setInfoRequest();
+        } catch (SQLException e1)
+        {
+            e1.printStackTrace();
+        }
         deleteButton.setEnabled(true);
 
     }

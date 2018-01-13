@@ -1,14 +1,24 @@
 import Server.Server;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Client
 {
-    int version;
+    int version=1;
     Server server;
+
+   StorageWindowFrame storageWindowFrame;
+   CrewWindowFrame crewWindowFrame;
+   OrdersWindowFrame ordersWindowFrame;
+   ProjectsWindowFrame projectsWindowFrame;
+   RequestsWindowFrame requestsWindowFrame;
 
     private Client()
     {
         server = new Server();
         setLoginWindow();
+
     }
 
     void setVersion(int x)
@@ -73,32 +83,32 @@ public class Client
 
     void setMenuWindow()
     {
-        new MenuWindowFrame(this,0);
+        new MenuWindowFrame(this,version);
     }
 
-    void setStorageWindow()
+    void setStorageWindow() throws SQLException
     {
-        new StorageWindowFrame(this);
+        storageWindowFrame=new StorageWindowFrame(this,version,server.showStock());
     }
 
-    void setProjectsWindow()
+    void setProjectsWindow() throws SQLException
     {
-        new ProjectsWindowFrame(this);
+        projectsWindowFrame=new ProjectsWindowFrame(this,version,server.showRequired());
     }
 
-    void setCrewWindow()
+    void setCrewWindow() throws SQLException
     {
-        new CrewWindowFrame(this);
+        crewWindowFrame=new CrewWindowFrame(this,version,server.showEmployees());
     }
 
     void setRequestsWindow()
     {
-        new RequestsWindowFrame(this);
+        requestsWindowFrame=new RequestsWindowFrame(this,version);
     }
 
     void setOrdersWindow()
     {
-        new OrdersWindowFrame(this);
+        ordersWindowFrame=new OrdersWindowFrame(this,version);
     }
 
     void setAdminWindow()

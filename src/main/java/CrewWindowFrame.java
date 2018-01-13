@@ -1,14 +1,20 @@
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class CrewWindowFrame extends NewWindowFrame
 {
-    Client client;
+    private Client client;
+    private int version;
     private JButton returnButton;
     private MenuButton addButton;
     private MenuButton editButton;
     private MenuButton deleteButton;
+    private ResultSet crewResult;
+    private  JList crewList;
 
     private JLabel idLabel;
     private JLabel nameLabel;
@@ -16,15 +22,21 @@ public class CrewWindowFrame extends NewWindowFrame
     private JLabel posLabel;
     private JLabel payLabel;
 
-    CrewWindowFrame(Client client)
+    private DefaultListModel<String> list = new DefaultListModel<>();
+
+    CrewWindowFrame(Client client,int version,ResultSet crewResult) throws SQLException
     {
+        this.version=version;
         this.client=client;
+        this.crewResult = crewResult;
+
         buildFrame();
         makeGui();
+        getList();
     }
 
 
-    void makeGui()
+    void makeGui() throws SQLException
     {
         JLabel stanLabel = new JLabel("KADRA");
         stanLabel.setFont(stanLabel.getFont().deriveFont(40f));
@@ -32,24 +44,21 @@ public class CrewWindowFrame extends NewWindowFrame
         add(stanLabel);
         stanLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        DefaultListModel<String> list = new DefaultListModel<>();
-        list.addElement("DUPA");
-
-        JList requestList = new JList(list);
-        JScrollPane scrollList = new JScrollPane(requestList);
+        crewList = new JList(list);
+        JScrollPane scrollList = new JScrollPane(crewList);
         scrollList.setBounds(100,150,300,400);
         add(scrollList);
-        requestList.addListSelectionListener(this);
+        crewList.addListSelectionListener(this);
 
         editButton = new MenuButton("EDYTUJ");
         editButton.setBounds(150,620,200,50);
-        add(editButton);
+
         editButton.addActionListener(this);
         editButton.setEnabled(false);
 
         deleteButton = new MenuButton("USUŃ");
         deleteButton.setBounds(150,90,200,50);
-        add(deleteButton);
+
         deleteButton.addActionListener(this);
         deleteButton.setEnabled(false);
 
@@ -60,7 +69,7 @@ public class CrewWindowFrame extends NewWindowFrame
 
         addButton = new MenuButton("DODAJ");
         addButton.setBounds(150,560,200,50);
-        add(addButton);
+
         addButton.addActionListener(this);
 
         idLabel = new JLabel("ID:\t");
@@ -81,7 +90,12 @@ public class CrewWindowFrame extends NewWindowFrame
         posLabel.setFont(posLabel.getFont().deriveFont(15f));
         payLabel.setFont(payLabel.getFont().deriveFont(15f));
 
-
+        if(version == 0)
+        {
+            add(editButton);
+            add(deleteButton);
+            add(addButton);
+        }
 
         add(idLabel);
         add(nameLabel);
@@ -92,13 +106,24 @@ public class CrewWindowFrame extends NewWindowFrame
 
     }
 
-    private void setInfoCrew()
+    void getList() throws SQLException
     {
-        idLabel.setText("ID:\t");
-        nameLabel.setText("Imię:\t");
-        surLabel.setText("Nazwisko:\t");
-        posLabel.setText("Stanowisko:\t");
-        payLabel.setText("Pensja:\t");
+        list.clear();
+        while (crewResult.next())
+        {
+            list.addElement(crewResult.getString("Imie")+"  "+crewResult.getString("Nazwisko"));
+
+        }
+    }
+
+    private void setInfoCrew() throws SQLException
+    {
+        crewResult.absolute(crewList.getSelectedIndex()+1);
+        idLabel.setText("ID:\t"+crewResult.getString("ID"));
+        nameLabel.setText("Imię:\t"+crewResult.getString("Imie"));
+        surLabel.setText("Nazwisko:\t"+crewResult.getString("Nazwisko"));
+        posLabel.setText("Stanowisko:\t"+crewResult.getString("Stanowisko"));
+        payLabel.setText("Pensja:\t"+crewResult.getString("Pensja"));
 
     }
 
@@ -128,7 +153,18 @@ public class CrewWindowFrame extends NewWindowFrame
         }
         else if(source == deleteButton)
         {
+            int i = crewList.getSelectedIndex()+1;
+            try
+            {
+                crewResult.absolute(i);
+                client.server.removeUser(crewResult.getString("Login"));
+                client.crewWindowFrame.dispose();
+                client.setCrewWindow();
 
+            } catch (SQLException e1)
+            {
+                e1.printStackTrace();
+            }
         }
     }
 
@@ -136,7 +172,13 @@ public class CrewWindowFrame extends NewWindowFrame
     public void valueChanged(ListSelectionEvent e)
     {
         editButton.setEnabled(true);
-        setInfoCrew();
+        try
+        {
+            setInfoCrew();
+        } catch (SQLException e1)
+        {
+            e1.printStackTrace();
+        }
         deleteButton.setEnabled(true);
 
     }

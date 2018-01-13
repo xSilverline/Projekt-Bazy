@@ -1,11 +1,14 @@
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class StorageWindowFrame extends NewWindowFrame
 {
     private Client client;
+    private int version;
+    private ResultSet storageResult;
     private JButton returnButton;
     private MenuButton addButton;
     private MenuButton editButton;
@@ -13,23 +16,28 @@ public class StorageWindowFrame extends NewWindowFrame
     private JLabel materialLabel;
     private JLabel numberLabel;
     private JLabel valueLabel;
+    private DefaultListModel<String> list = new DefaultListModel<>();
 
-    StorageWindowFrame(Client client)
+    StorageWindowFrame(Client client, int version, ResultSet storageResult) throws SQLException
     {
         this.client=client;
+        this.version = version;
+        this.storageResult = storageResult;
         buildFrame();
         makeGui();
+        getList();
     }
     @Override
-    void makeGui()
+    void makeGui() throws SQLException
     {
         JLabel stanLabel = new JLabel("STAN MAGAZYNU");
         stanLabel.setFont(stanLabel.getFont().deriveFont(40f));
         stanLabel.setBounds(483,10,400,50);
         add(stanLabel);
 
-        DefaultListModel<String> list = new DefaultListModel<>();
-        list.addElement("DUPA");
+
+        list.clear();
+
         JList storageList = new JList(list);
         JScrollPane scrollList = new JScrollPane(storageList);
         scrollList.setBounds(100,150,300,400);
@@ -38,13 +46,13 @@ public class StorageWindowFrame extends NewWindowFrame
 
         deleteButton = new MenuButton("USUŃ");
         deleteButton.setBounds(150,90,200,50);
-        add(deleteButton);
+
         deleteButton.addActionListener(this);
         deleteButton.setEnabled(false);
 
         editButton = new MenuButton("EDYTUJ");
         editButton.setBounds(150,620,200,50);
-        add(editButton);
+
         editButton.addActionListener(this);
         editButton.setEnabled(false);
 
@@ -55,7 +63,7 @@ public class StorageWindowFrame extends NewWindowFrame
 
         addButton = new MenuButton("DODAJ");
         addButton.setBounds(150,560,200,50);
-        add(addButton);
+
         addButton.addActionListener(this);
 
         materialLabel = new JLabel("Materiał:\t");
@@ -70,9 +78,27 @@ public class StorageWindowFrame extends NewWindowFrame
         numberLabel.setFont(numberLabel.getFont().deriveFont(15f));
         valueLabel.setFont(valueLabel.getFont().deriveFont(15f));
 
+        if(version == 0)
+        {
+            add(editButton);
+            add(deleteButton);
+            add(addButton);
+        }
+
         add(materialLabel);
         add(numberLabel);
         add(valueLabel);
+
+    }
+
+    void getList() throws SQLException
+    {
+        String input;
+        while(storageResult.next())
+        {
+            input = storageResult.getString("Material");
+            list.addElement(input);
+        }
 
     }
 

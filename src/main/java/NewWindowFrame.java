@@ -4,11 +4,12 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public abstract class NewWindowFrame extends JFrame implements ActionListener,ListSelectionListener
 {
 
-    abstract void makeGui();
+    abstract void makeGui() throws SQLException;
     void buildFrame()
     {
         setSize(1366,768);
