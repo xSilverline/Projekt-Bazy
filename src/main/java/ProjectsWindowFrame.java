@@ -47,9 +47,6 @@ public class ProjectsWindowFrame extends NewWindowFrame
         stanLabel.setBounds(483,10,400,50);
         add(stanLabel);
 
-
-
-
         projectList = new JList(list);
         JScrollPane scrollList = new JScrollPane(projectList);
         scrollList.setBounds(100,150,300,400);

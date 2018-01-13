@@ -93,7 +93,7 @@ public class Client
 
     void setProjectsWindow() throws SQLException
     {
-        projectsWindowFrame=new ProjectsWindowFrame(this,version,server.showRequired());
+        projectsWindowFrame=new ProjectsWindowFrame(this,version,server.showProjects());
     }
 
     void setCrewWindow() throws SQLException

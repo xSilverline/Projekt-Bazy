@@ -62,10 +62,7 @@ public class MenuWindowFrame extends NewWindowFrame
         add(neededButton);
 
         add(infoButton);
-        if(version <1)
-        {
-            add(adminButton);
-        }
+
         if(version<2)
         {
             add(crewButton);

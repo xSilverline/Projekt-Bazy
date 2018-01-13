@@ -72,17 +72,23 @@ public class AddOrderDialog extends NewWindowDialog
         dateField.setBounds(300,325,200,30);
         statusField.setBounds(300,365,200,30);
 
+        nameField.setFont(nameField.getFont().deriveFont(20f));
+        amountField.setFont(amountField.getFont().deriveFont(20f));
+        valueField.setFont(valueField.getFont().deriveFont(20f));
+        dateField.setFont(dateField.getFont().deriveFont(20f));
+        statusField.setFont(statusField.getFont().deriveFont(20f));
+
         add(nameField);
         add(amountField);
         add(dateField);
         add(valueField);
-        add(statusField);
+        //add(statusField);
 
         add(nameLabel);
         add(amountLabel);
         add(valueLabel);
         add(dayeLabel);
-        add(statusLabel);
+        //add(statusLabel);
 
         addButton = new MenuButton("DODAJ");
         closeButton = new MenuButton("ZAMKNIJ");
@@ -108,7 +114,7 @@ public class AddOrderDialog extends NewWindowDialog
         }
         else if(source == addButton)
         {
-            if(nameField.getText().isEmpty() || amountField.getText().isEmpty() || dateField.getText().isEmpty() || valueField.getText().isEmpty()|| statusField.getText().isEmpty() )
+            if(nameField.getText().isEmpty() || amountField.getText().isEmpty() || dateField.getText().isEmpty() || valueField.getText().isEmpty())
             {
                 JOptionPane.showMessageDialog(null,"Błąd danych - uzupełnij");
             }

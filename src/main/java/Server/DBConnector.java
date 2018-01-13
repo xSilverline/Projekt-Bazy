@@ -307,11 +307,10 @@ public class DBConnector {
      * @param budzet
      * @param koszt_materialow
      * @param koszt_calkowity
-     * @param status
      * @return 1 if project added, 0 if exception
      */
-    protected int addProject(String nazwa, String data_rozpoczecia, String termin, String ilosc, String nadzorca, String zamawiajacy, String wynagrodzenie, String budzet, String koszt_materialow, String koszt_calkowity, String status){
-        String query = "CALL addProject('"+nazwa+"', '"+data_rozpoczecia+"', '"+termin+"', "+ilosc+", "+nadzorca+", '"+zamawiajacy+"', "+wynagrodzenie+", "+budzet+", "+koszt_materialow+", "+koszt_calkowity+", "+status+");";
+    protected int addProject(String nazwa, String data_rozpoczecia, String termin, String ilosc, String nadzorca, String zamawiajacy, String wynagrodzenie, String budzet, String koszt_materialow, String koszt_calkowity){
+        String query = "CALL addProject('"+nazwa+"', '"+data_rozpoczecia+"', '"+termin+"', "+ilosc+", "+nadzorca+", '"+zamawiajacy+"', "+wynagrodzenie+", "+budzet+", "+koszt_materialow+", "+koszt_calkowity+");";
         try{
             doCall(query);
             System.out.println("DBConnector.addProject: Project added.");

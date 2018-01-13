@@ -134,7 +134,7 @@ public class AddProjectDialog extends NewWindowDialog
         add(budgetField);
         add(matCostField);
         add(totalFIeld);
-        add(statusField);
+     //   add(statusField);
         add(amountField);
 
         add(nameLabel);
@@ -146,7 +146,7 @@ public class AddProjectDialog extends NewWindowDialog
         add(orderLabel);
         add(priceLabel);
         add(budgetLabel);
-        add(statusLabel);
+     //   add(statusLabel);
         add(amountLabel);
 
         add(addButton);
@@ -168,13 +168,13 @@ public class AddProjectDialog extends NewWindowDialog
         }
         else if(source == addButton)
         {
-            if(nameField.getText().isEmpty()||amountField.getText().isEmpty() || startField.getText().isEmpty() || termField.getText().isEmpty() || totalFIeld.getText().isEmpty() || careField.getText().isEmpty()|| budgetField.getText().isEmpty()|| orderField.getText().isEmpty() || priceField.getText().isEmpty() || matCostField.getText().isEmpty() || statusField.getText().isEmpty())
+            if(nameField.getText().isEmpty()||amountField.getText().isEmpty() || startField.getText().isEmpty() || termField.getText().isEmpty() || totalFIeld.getText().isEmpty() || careField.getText().isEmpty()|| budgetField.getText().isEmpty()|| orderField.getText().isEmpty() || priceField.getText().isEmpty() || matCostField.getText().isEmpty())
             {
                 JOptionPane.showMessageDialog(null,"Błąd danych - uzupełnij");
             }
             else
             {
-                client.server.addProject(nameField.getText(),startField.getText(),termField.getText(),amountField.getText(),careField.getText(),orderField.getText(),priceField.getText(),budgetField.getText(),matCostField.getText(),totalFIeld.getText(),statusField.getText());
+                client.server.addProject(nameField.getText(),startField.getText(),termField.getText(),amountField.getText(),careField.getText(),orderField.getText(),priceField.getText(),budgetField.getText(),matCostField.getText(),totalFIeld.getText());
 
                 dispose();
                 client.projectsWindowFrame.dispose();
@@ -185,6 +185,7 @@ public class AddProjectDialog extends NewWindowDialog
                 {
                     e1.printStackTrace();
                 }
+
             }
 
         }
