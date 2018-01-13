@@ -212,6 +212,15 @@ public class Server {
         return 1;
     }
 
+    public int addStock(String material, String ilosc, String wartosc_sztuki){
+        if(dbConnector.addStock(material, ilosc, wartosc_sztuki) ==1){
+            System.out.println("Server.addStock: Stock entry added.");
+            return 1;
+        }
+        System.out.println("Server.addStock: Could not add stock entry.");
+        return 0;
+    }
+
     public ResultSet showProjects(){
         return dbConnector.getProjects();
     }

@@ -367,6 +367,19 @@ public class DBConnector {
         }
     }
 
+    protected int addStock(String material, String ilosc, String wartosc_sztuki){
+        String query = "CALL addStock('"+material+"', "+ilosc+", "+wartosc_sztuki+");";
+        try{
+            doCall(query);
+            System.out.println("DBConnector.addStock: Stock entry added.");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("DBConnector.addStock: Exception has occurred. Could not add stock entry.");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     //==================================================================================================================
     //
     //SHOWING THINGS
